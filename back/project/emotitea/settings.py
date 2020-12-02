@@ -37,7 +37,7 @@ DEFAULT_APPS = [
     'django.contrib.staticfiles',
 ]
 THIRD_PARTY_APPS = []
-LOCAL_APPS = ['users']
+LOCAL_APPS = ['apps.users']
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -91,6 +91,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTH_USER_MODEL = 'users.User'
+
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = '/'

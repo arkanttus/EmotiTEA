@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.conf.urls.static import static, settings
 from django.urls import path
-from users.views import LoginView, RegisterView
+from apps.users.views import LoginView, RegisterView
 
 from .settings import MEDIA_ROOT, MEDIA_URL
 
