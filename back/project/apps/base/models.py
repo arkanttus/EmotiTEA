@@ -2,7 +2,8 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from utils import normalize_filename
+
+from .utils import normalize_filename
 
 
 User = get_user_model()
@@ -28,7 +29,7 @@ class Institution(BaseModel):
         on_delete=models.CASCADE,
         verbose_name=_('Criador'),
         help_text=_('Criador desta instituição.'),
-        related_name='institution'
+        related_name='my_institution'
     )
     users = models.ManyToManyField(
         User,
@@ -44,41 +45,6 @@ class Institution(BaseModel):
     class Meta:
         verbose_name = _('Instituição')
         verbose_name_plural = _('Instituições')
-    
-
-    def __str__(self):
-        return f'{self.name}'
-
-
-class Student(BaseModel):
-    
-    class Gender(models.TextChoices):
-        FEMALE = 'F', _('Feminino')
-        MALE = 'M', _('Masculino')
-
-    affiliation = models.ForeignKey(
-        Affiliation,
-        on_delete=models.CASCADE,
-        verbose_name=_('Filiação'),
-        help_text=_('Informações de Filiação'),
-        related_name='student'
-    )
-    name = models.CharField(_('Nome'), max_length=100)
-    birthday = models.DateField(_('Data de nascimento'))
-    gender = models.CharField(_('Gênero'), max_length=1, choices=Gender.choices, default=Gender.FEMALE)
-    address = models.CharField(_('Endereço'), max_length=255)
-    phone = models.CharField(_('Telefone'))
-    sus_number = models.CharField(_('Número do SUS'))
-    has_nickname = models.BooleanField(_('Tem apelido?'), default=False)
-    nickname = models.CharField(_('Apelido'), blank=True, null=True)
-    who_add_nickname = models.CharField(_('Quem deu o apelido?'), blank=True, null=True)
-    why_add_nickname = models.CharField(_('Por que deu o apelido?'), blank=True, null=True)
-    likes_nickname = models.BooleanField(_('Gosta do apelido?'), blank=True, null=True)
-    school_entry_date = models.DateField(_('Data de entrada na escola'))
-
-    class Meta:
-        verbose_name = _('Aluno')
-        verbose_name_plural = _('Alunos')
     
 
     def __str__(self):
@@ -104,6 +70,47 @@ class Affiliation(BaseModel):
 
     def __str__(self):
         return f'Filiação de {self.student.name}'
+
+
+class Student(BaseModel):
+    
+    class Gender(models.TextChoices):
+        FEMALE = 'F', _('Feminino')
+        MALE = 'M', _('Masculino')
+
+    affiliation = models.ForeignKey(
+        Affiliation,
+        on_delete=models.CASCADE,
+        verbose_name=_('Filiação'),
+        help_text=_('Informações de Filiação'),
+        related_name='student'
+    )
+    anamnesis = models.OneToOneField(
+        'anamneses.Anamnesis',
+        on_delete=models.CASCADE,
+        verbose_name=_('Anamnese'),
+        related_name='student'
+    )
+    name = models.CharField(_('Nome'), max_length=100)
+    birthday = models.DateField(_('Data de nascimento'))
+    gender = models.CharField(_('Gênero'), max_length=1, choices=Gender.choices, default=Gender.FEMALE)
+    address = models.CharField(_('Endereço'), max_length=255)
+    phone = models.CharField(_('Telefone'), max_length=30)
+    sus_number = models.CharField(_('Número do SUS'), max_length=20)
+    has_nickname = models.BooleanField(_('Tem apelido?'), default=False)
+    nickname = models.CharField(_('Apelido'), max_length=100, blank=True, null=True)
+    who_add_nickname = models.CharField(_('Quem deu o apelido?'), max_length=100, blank=True, null=True)
+    why_add_nickname = models.CharField(_('Por que deu o apelido?'), max_length=255, blank=True, null=True)
+    likes_nickname = models.BooleanField(_('Gosta do apelido?'), blank=True, null=True)
+    school_entry_date = models.DateField(_('Data de entrada na escola'))
+
+    class Meta:
+        verbose_name = _('Aluno')
+        verbose_name_plural = _('Alunos')
+    
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 def path_image(instance, filename):

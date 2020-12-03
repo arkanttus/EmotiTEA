@@ -50,8 +50,7 @@ class UserForm(forms.ModelForm):
             'phone': forms.TextInput(
                 attrs={
                     'class': 'form-control form-control-lg',
-                    'placeholder': 'Número de celular',
-                    'data-mask': '(00) 00000-0000',
+                    'placeholder': 'Número de celular'
                 }
             ),
         }
