@@ -91,6 +91,12 @@ class Student(BaseModel):
         verbose_name=_('Anamnese'),
         related_name='student'
     )
+    institution = models.ForeignKey(
+        Institution,
+        on_delete=models.CASCADE,
+        verbose_name=_('Instituição'),
+        related_name='students'
+    )
     name = models.CharField(_('Nome'), max_length=100)
     birthday = models.DateField(_('Data de nascimento'))
     gender = models.CharField(_('Gênero'), max_length=1, choices=Gender.choices, default=Gender.FEMALE)
@@ -126,8 +132,8 @@ class Photos(BaseModel):
     )
 
     class Meta:
-        verbose_name = _('Filiação')
-        verbose_name_plural = _('Filiações')
+        verbose_name = _('Foto Treino')
+        verbose_name_plural = _('Fotos Treino')
     
 
     def __str__(self):
