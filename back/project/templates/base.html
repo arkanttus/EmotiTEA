@@ -20,12 +20,17 @@
     <body>
         <h1> COE MENÓ </h1>
 
-        {% block body %}
-        {% endblock body %}
+        <div class="container">
+            {% block body %}
+            {% endblock body %}
+        </div>
 
-        {% block body_script %}
-        {% endblock body_script%}
         
         <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/jquery.formset.js' %}"></script>
+        
+        {% block body_script %}
+        {% endblock body_script%}
     </body>
 </html>

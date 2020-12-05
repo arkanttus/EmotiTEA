@@ -36,7 +36,7 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = ['djangoformsetjs']
 LOCAL_APPS = ['apps.users', 'apps.base', 'apps.anamneses']
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS

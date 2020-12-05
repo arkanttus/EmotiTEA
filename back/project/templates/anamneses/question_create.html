@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% include 'anamneses/question_form.html' %}
+{% endblock body %}
+
+{% block body_script %}
+    <script type="text/javascript">
+        $(function() {
+            $("#question_form").formset({ animateForms: true });
+        });
+    </script>
+{% endblock body_script %}

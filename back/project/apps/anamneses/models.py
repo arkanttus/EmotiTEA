@@ -13,9 +13,17 @@ class Question(BaseModel):
         CHECKBOXES = 'CHECKBOXES', _('Caixas de Seleção')
         TRUE_FALSE = 'TRUE_FALSE', _('Verdadeiro ou Falso')
 
+    institution = models.ForeignKey(
+        'base.Institution',
+        verbose_name=_('Instituição'),
+        related_name='questions',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
     description = models.CharField(_('Descrição'), max_length=255)
     type = models.CharField(_('Tipo de pergunta'), max_length=12, choices=Types.choices, default=Types.TEXT)
-    #default_value = models.CharField(_(''))
+    default_value = models.CharField(_('Valor Padrão'), max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _('Questão')
@@ -24,9 +32,21 @@ class Question(BaseModel):
 
     def __str__(self):
         return f'{self.description}'
+    
+    def create_answers(self, type_question):
+        pass
+        #if type_question == self.Types.TEXT
 
 
 class Mold(BaseModel):
+    institution = models.ForeignKey(
+        'base.Institution',
+        verbose_name=_('Instituição'),
+        related_name='molds',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
     is_active = models.BooleanField(_('Ativo'), default=True)
     description = models.CharField(_('Descrição'), max_length=255, blank=True, null=True)
     questions = models.ManyToManyField(
@@ -61,6 +81,7 @@ class Anamnesis(BaseModel):
 
 
 
+'''
 class Alternative(BaseModel):
     content = models.CharField(_('Conteúdo'), max_length=100)
     question = models.ForeignKey(
@@ -77,6 +98,7 @@ class Alternative(BaseModel):
 
     def __str__(self):
         return f'{self.content}'
+'''
 
 
 class Answer(BaseModel):
@@ -93,12 +115,12 @@ class Answer(BaseModel):
         related_name='answers',
         on_delete=models.CASCADE
     )
-    alternative = models.ForeignKey(
+    '''alternative = models.ForeignKey(
         Alternative,
         verbose_name=_('Alternativa'),
         blank=True,
         on_delete=models.CASCADE
-    )
+    )'''
 
     class Meta:
         verbose_name = _('Resposta')

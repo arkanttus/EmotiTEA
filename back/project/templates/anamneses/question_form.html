@@ -1,0 +1,49 @@
+{% load formset_tags %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div id="question_form" data-formset-prefix="{{ question_form.prefix }}" class="container-fluid">
+        {{ question_form.management_form }}
+        <div data-formset-body>
+            {% for form in question_form %}
+                <div data-formset-form>
+                    <div class="row mb-2">
+                        
+                        {{ form.description }}
+                        {{ form.type }}
+                        {{ form.default_value }}
+
+                        <div class="d-none">{{ form.DELETE }}</div>
+                        <button type="button" class="btn" data-formset-delete-button>
+                            delete
+                        </button>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
+
+        <input type="button" data-formset-add id="question_add" class='btn btn-success' value="Adicionar">
+
+        
+
+        <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+                <div data-formset-form>
+                    <div class="row mb-2">
+
+                        {{ question_form.empty_form.description }}
+                        {{ question_form.empty_form.type }}
+                        {{ question_form.empty_form.default_value }}
+
+                        <div class="d-none">{{ question_form.empty_form.DELETE }}</div>
+                        <button type="button" class="btn" data-formset-delete-button>
+                            delete
+                        </button>
+                    </div>
+                </div>
+            {% endescapescript %}
+        </script>
+    </div>
+</form>
