@@ -15,7 +15,7 @@ class QuestionCreate(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        question_form = QuestionFormSet()
+        question_form = QuestionFormSet(queryset=Question.objects.none())
 
         return self.render_to_response(
             self.get_context_data(
@@ -25,6 +25,22 @@ class QuestionCreate(CreateView):
 
     def post(self, request, *args, **kwargs):
         self.object = None
-        print(self.request.POST)
-        print(request.POST)
-        #question_form = QuestionFormSet(request)
+        question_form = QuestionFormSet(request.POST)
+        
+        if question_form.is_valid():
+            print(question_form.cleaned_data)
+            print('VLAIDO')
+            question_form.save()
+            return redirect(self.template_name)
+        else:
+            return self.render_to_response(
+                self.get_context_data(
+                    question_form=question_form
+                )
+            )
+
+
+class MoldCreate(CreateView):
+    model = Mold
+    form = MoldForm
+    template_name = 'anamneses/mold_create.html'

@@ -58,7 +58,7 @@ class AnamnesisForm(forms.ModelForm):
             self.fields['molds'].queryset = mold_queryset
 
 
-QuestionFormSet = forms.formset_factory(QuestionForm, extra=2, can_delete=True)
+QuestionFormSet = forms.modelformset_factory(Question, QuestionForm, extra=2, can_delete=True)
 
 '''
 class AnswerForm(forms.ModelForm):

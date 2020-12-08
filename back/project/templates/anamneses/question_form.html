@@ -10,20 +10,18 @@
                 <div data-formset-form>
                     <div class="row mb-2 mt-2">
 
-                        <div class="form-floating mb-3">
-                            {{ form.description }}
-                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=form.description %}
                         </div>
 
-                        <div class="form-floating mb-3">
-                            {{ form.type }}
-                            <label for="{{ form.type.id_for_label }}" >{{ form.type.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=form.type %}
                         </div>
 
-                        <div class="form-floating mb-3">
-                            {{ form.default_value }}
-                            <label for="{{ form.default_value.id_for_label }}">{{ form.default_value.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=form.default_value %}
                         </div>
+
 
                         <div class='col-6 col-md-2 mb-3'>
                             <div class="d-none">{{ form.DELETE }}</div>
@@ -54,30 +52,22 @@
                 <div data-formset-form>
                     <div class="row mb-2 mt-2">
 
-                        <div class="form-floating mb-3">
-                            {{ question_form.empty_form.description }}
-                            <label for="{{ question_form.empty_form.description.id_for_label }}">{{ question_form.empty_form.description.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=question_form.empty_form.description %}
                         </div>
 
-                        <div class="form-floating mb-3">
-                            {{ question_form.empty_form.type }}
-                            <label for="{{ question_form.empty_form.type.id_for_label }}" >{{ question_form.empty_form.type.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=question_form.empty_form.type %}
                         </div>
 
-                        <div class="form-floating mb-3">
-                            {{ question_form.empty_form.default_value }}
-                            <label for="{{ question_form.empty_form.default_value.id_for_label }}">{{ question_form.empty_form.default_value.label }}</label>
+                        <div class="col-md-12">
+                            {% include 'components/field.html' with field=question_form.empty_form.default_value %}
                         </div>
 
-                        <!--{{ question_form.empty_form.default_value }}-->
-
-                        <div class="d-none form-floating mb-3" id=`{{ question_form.prefix }}-${form_prefix}`>
-
-                        </div>
 
                         <div class='col-6 col-md-2 mb-3'>
                             <div class="d-none">{{ question_form.empty_form.DELETE }}</div>
-                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                            <button type="button" class="btn btn-danger" onclick="removeQuestion('{{ question_form.empty_form.default_value.html_name }}')" data-formset-delete-button>
                                 Remover Pergunta
                             </button>
                         </div>
