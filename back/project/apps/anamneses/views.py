@@ -15,8 +15,6 @@ class QuestionCreate(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = None
-        form = self.get_form(self.get_form_class())
-
         question_form = QuestionFormSet()
 
         return self.render_to_response(
@@ -25,5 +23,8 @@ class QuestionCreate(CreateView):
             )
         )
 
-        #if form.is_valid():
-            
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        print(self.request.POST)
+        print(request.POST)
+        #question_form = QuestionFormSet(request)

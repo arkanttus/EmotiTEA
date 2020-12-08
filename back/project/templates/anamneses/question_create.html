@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body %}
-    {% include 'anamneses/question_form.html' %}
+    <div class="container">
+        {% include 'anamneses/question_form.html' %}
+    </div>
 {% endblock body %}
 
 {% block body_script %}
@@ -10,4 +13,6 @@
             $("#question_form").formset({ animateForms: true });
         });
     </script>
+
+    <script src="{% static 'js/anamneses/question_create.js' %}"></script>
 {% endblock body_script %}

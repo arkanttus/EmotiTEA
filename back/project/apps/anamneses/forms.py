@@ -8,13 +8,13 @@ class QuestionForm(forms.ModelForm):
         fields = ('description', 'type', 'default_value')
         widgets = {
             'description': forms.TextInput(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control', 'placeholder': 'Descrição'}
             ),
             'type': forms.Select(
-                attrs={'class': 'form-select'}
+                attrs={'class': 'form-select', 'placeholder': 'Tipo da pergunta', 'onchange': "handleTypeQuestion(this)"}
             ),
             'default_value': forms.TextInput(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control', 'placeholder': 'Resposta Padrão'}
             )
         }
 

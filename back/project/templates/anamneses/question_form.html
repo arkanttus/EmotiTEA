@@ -1,6 +1,6 @@
 {% load formset_tags %}
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" id="form-questions" >
     {% csrf_token %}
 
     <div id="question_form" data-formset-prefix="{{ question_form.prefix }}" class="container-fluid">
@@ -8,40 +8,81 @@
         <div data-formset-body>
             {% for form in question_form %}
                 <div data-formset-form>
-                    <div class="row mb-2">
-                        
-                        {{ form.description }}
-                        {{ form.type }}
-                        {{ form.default_value }}
+                    <div class="row mb-2 mt-2">
 
-                        <div class="d-none">{{ form.DELETE }}</div>
-                        <button type="button" class="btn" data-formset-delete-button>
-                            delete
-                        </button>
+                        <div class="form-floating mb-3">
+                            {{ form.description }}
+                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form.type }}
+                            <label for="{{ form.type.id_for_label }}" >{{ form.type.label }}</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form.default_value }}
+                            <label for="{{ form.default_value.id_for_label }}">{{ form.default_value.label }}</label>
+                        </div>
+
+                        <div class='col-6 col-md-2 mb-3'>
+                            <div class="d-none">{{ form.DELETE }}</div>
+                            <button type="button" class="btn btn-danger" onclick="removeQuestion('{{ form.default_value.html_name }}')" data-formset-delete-button>
+                                Remover Pergunta
+                            </button>
+                        </div>
                     </div>
                     
                 </div>
             {% endfor %}
         </div>
 
-        <input type="button" data-formset-add id="question_add" class='btn btn-success' value="Adicionar">
+        <input type="button" data-formset-add id="question_add" class='btn btn-success' value="Nova Pergunta">
 
-        
+        <button type="submit" class='btn btn-success'>
+            Enviar
+        </button>
+
+        <script type="text/javascript">
+            const form_prefix = '{{ question_form.prefix }}'
+            console.log(form_prefix)
+        </script>
 
         <script type="form-template" data-formset-empty-form>
+            
             {% escapescript %}
                 <div data-formset-form>
-                    <div class="row mb-2">
+                    <div class="row mb-2 mt-2">
 
-                        {{ question_form.empty_form.description }}
-                        {{ question_form.empty_form.type }}
-                        {{ question_form.empty_form.default_value }}
+                        <div class="form-floating mb-3">
+                            {{ question_form.empty_form.description }}
+                            <label for="{{ question_form.empty_form.description.id_for_label }}">{{ question_form.empty_form.description.label }}</label>
+                        </div>
 
-                        <div class="d-none">{{ question_form.empty_form.DELETE }}</div>
-                        <button type="button" class="btn" data-formset-delete-button>
-                            delete
-                        </button>
+                        <div class="form-floating mb-3">
+                            {{ question_form.empty_form.type }}
+                            <label for="{{ question_form.empty_form.type.id_for_label }}" >{{ question_form.empty_form.type.label }}</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ question_form.empty_form.default_value }}
+                            <label for="{{ question_form.empty_form.default_value.id_for_label }}">{{ question_form.empty_form.default_value.label }}</label>
+                        </div>
+
+                        <!--{{ question_form.empty_form.default_value }}-->
+
+                        <div class="d-none form-floating mb-3" id=`{{ question_form.prefix }}-${form_prefix}`>
+
+                        </div>
+
+                        <div class='col-6 col-md-2 mb-3'>
+                            <div class="d-none">{{ question_form.empty_form.DELETE }}</div>
+                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                                Remover Pergunta
+                            </button>
+                        </div>
                     </div>
+                    
                 </div>
             {% endescapescript %}
         </script>
