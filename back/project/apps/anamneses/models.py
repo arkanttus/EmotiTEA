@@ -36,6 +36,11 @@ class Question(BaseModel):
     def create_answers(self, type_question):
         pass
         #if type_question == self.Types.TEXT
+    
+    def deserialize_alternatives(self):
+        alternatives = self.default_value
+        if alternatives:
+            return alternatives.split(';')
 
 
 class Mold(BaseModel):

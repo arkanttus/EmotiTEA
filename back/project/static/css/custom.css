@@ -1,0 +1,3 @@
+div[data-formset-form-deleted] {
+    display: none;
+}

@@ -18,10 +18,52 @@
                             {% include 'components/field.html' with field=form.type %}
                         </div>
 
-                        <div class="col-md-12">
-                            {% include 'components/field.html' with field=form.default_value %}
-                        </div>
 
+                        {% if form.instance.type != 'TEXT' %}
+                            <div data-input-block='{{ form.default_value.html_name }}' class='col-md-12 mb-3'>
+                                {% if form.instance.type == 'MULTI_CHOICE' or form.instance.type == 'CHECKBOXES' %}
+
+                                    {% for alternative in form.instance.deserialize_alternatives %}
+                                        <div class='row mb-2'>
+                                            <div class="col-sm-6">
+                                                <input type='text' data-input-alternative='{{ form.default_value.html_name }}'
+                                                        class="form-control" value='{{ alternative }}' placeholder="Alternativa"
+                                                />
+                                            </div>
+                                            <button class="col-sm-2 btn btn-danger" onclick="removeAlternative(this.parentNode)">
+                                                Apagar
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                    <button class="btn btn-success mt-2" onclick="createAlternative(this.parentNode, '{{ form.default_value.html_name }}')">
+                                        Adicionar Alternativa
+                                    </button>
+
+                                {% elif form.instance.type == 'TRUE_FALSE' %}
+                                    <label class="mb-1 mt-2">Valor Padrão</label>
+                                    
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" data-input-boolean="form-0-default_value"
+                                               id="checkbox-{{ form.default_value.html_name }}"
+                                               onchange="handleCheckbox(this, this.nextElementSibling, '{{ form.default_value.html_name }}')"
+                                               {% if form.instance.default_value == 'true' %} checked {% endif %}
+                                        />
+                                        <label class="form-check-label" for="checkbox-{{ form.default_value.html_name }}">
+                                            {% if form.instance.default_value == 'true' %} Verdadeiro {% else %} Falso {% endif %}
+                                        </label>
+                                    </div>
+
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-12 d-none">
+                                {% include 'components/field.html' with field=form.default_value %}
+                            </div>
+                        {% else %}
+                            <div class="col-md-12">
+                                {% include 'components/field.html' with field=form.default_value %}
+                            </div>
+                        {% endif %}
 
                         <div class='col-6 col-md-2 mb-3'>
                             <div class="d-none">{{ form.DELETE }}</div>
@@ -36,6 +78,7 @@
         </div>
 
         <input type="button" data-formset-add id="question_add" class='btn btn-success' value="Nova Pergunta">
+        <input type="button" class='btn btn-success' value="FDP" onclick="teste()">
 
         <button type="submit" class='btn btn-success'>
             Enviar
@@ -44,6 +87,12 @@
         <script type="text/javascript">
             const form_prefix = '{{ question_form.prefix }}'
             console.log(form_prefix)
+        </script>
+
+        <script type='form-template' id='hue'>
+            {% escapescript %}
+                <input type='text' class="form-control" value='{{ alternative }}' data-input='alternative-{{ form.default_value.id_for_label }}'/>
+            {% endescapescript %}
         </script>
 
         <script type="form-template" data-formset-empty-form>
