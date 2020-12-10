@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container">
+        {% include 'anamneses/mold_form.html' %}
+    </div>
+
+
+    
+{% endblock body %}
+
+{% block body_script %}
+    <script type='text/javascript'>
+        
+        //var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+        //console.log(myModal)
+        //myModal.show()
+        //var myInput = document.getElementById('myInput')
+
+
+        function openC(id){
+            const modalEl = document.getElementById(id)
+            console.log(modalEl)
+            var myModal = new bootstrap.Modal(modalEl)
+            console.log(id)
+            console.log(myModal)
+            myModal.show()
+        }
+    </script>
+{% endblock body_script %}

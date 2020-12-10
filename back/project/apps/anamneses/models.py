@@ -53,7 +53,7 @@ class Mold(BaseModel):
         null=True
     )
     is_active = models.BooleanField(_('Ativo'), default=True)
-    description = models.CharField(_('Descrição'), max_length=255, blank=True, null=True)
+    title = models.CharField(_('Título'), max_length=255)
     questions = models.ManyToManyField(
         Question,
         verbose_name=_('Questões')
@@ -65,7 +65,7 @@ class Mold(BaseModel):
     
 
     def __str__(self):
-        return f'{self.description}'
+        return f'{self.title}'
 
 
 class Anamnesis(BaseModel):

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from .models import *
 
 
@@ -20,22 +21,26 @@ class QuestionForm(forms.ModelForm):
 
 
 class MoldForm(forms.ModelForm):
-    questions = forms.ModelChoiceField(required=True, queryset=None, widget=forms.Select(
-        attrs={'class': 'form-select'}
-    ))
+    questions = forms.ModelMultipleChoiceField(label=_('Questões'), required=True, queryset=None, 
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'form-check-input'}
+        )
+    )
 
     class Meta:
         model = Mold
-        fields = ('description', 'questions')
+        fields = ('title', 'questions')
         widgets = {
-            'description': forms.TextInput(
-                attrs={'class': 'form-control'}
+            'title': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Título'}
             ),
         }
     
 
     def __init__(self, *args, **kwargs):
         question_queryset = kwargs.pop('question_queryset', None)
+
+        super(MoldForm, self).__init__(*args, **kwargs)
 
         if question_queryset:
             self.fields['questions'].queryset = question_queryset

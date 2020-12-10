@@ -1,21 +1,40 @@
-<div class="form-floating mb-3">
+{% if field.field.widget.input_type == 'checkbox' %}
 
-    {{ field }}
-    <label for="{{ field.id_for_label }}">
-        {{ field.label }}
-        {% if field.field.required %}
-            <span class='text-danger'>*</span>
-        {% endif %}
-    </label>
-
-    {% if field.errors %}
-        <div class="invalid-feedback">
-            {% for error in field.errors %}
-                {% if forloop.first %}
-                {% else %}, {% endif %}
-                {{ error|striptags }}
-            {% endfor %}
+    {{ field.label }}
+    {% for radio in field %}
+        <div class="form-check">
+            {{ radio.tag }}
+            
+            {% if modal %}
+                <label class="form-check-label" data-toggle="modal" data-target="modal_{{ modal }}_{{ forloop.counter0 }}">
+            {% else %}
+                <label class="form-check-label" for="{{ radio.id_for_label }}" >
+            {% endif %}
+                {{ radio.choice_label }}
+            </label>
         </div>
-    {% endif %}
+    {% endfor %}
 
-</div>
+{% else %}
+    <div class="form-floating mb-3">
+
+        {{ field }}
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+            {% if field.field.required %}
+                <span class='text-danger'>*</span>
+            {% endif %}
+        </label>
+
+        {% if field.errors %}
+            <div class="invalid-feedback">
+                {% for error in field.errors %}
+                    {% if forloop.first %}
+                    {% else %}, {% endif %}
+                    {{ error|striptags }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endif %}
