@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.conf.urls.static import static, settings
 from django.urls import path
 from apps.users.views import LoginView, RegisterView
+from apps.users import views as uv
 from apps.base.views import PhotoCreate
 from apps.anamneses.views import QuestionCreate
 
@@ -12,5 +13,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
     path('question/', QuestionCreate.as_view(), name='question_create'),
-    path('', PhotoCreate.as_view(), name='upload')
+    path('', PhotoCreate.as_view(), name='upload'),
+    path('reset_password/', uv.reset_password, name='reset_password')
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

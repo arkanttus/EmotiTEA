@@ -26,3 +26,7 @@ class RegisterView(SuccessMessageMixin, CreateView):
     form_class = UserForm
     success_message = '%(email)s cadastrado com sucesso'
     success_url = reverse_lazy('login')
+
+
+def reset_password(request):
+    return render(request, 'reset_password.html')
