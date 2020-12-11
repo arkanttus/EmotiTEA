@@ -12,7 +12,8 @@ from .forms import UserForm, AuthenticationForm
 
 User = get_user_model()
 
-login_page = 'login.html'
+login_page = 'users/login.html'
+register_page = 'users/register.html'
 
 class LoginView(DjangoLoginView):
     template_name = login_page
@@ -21,12 +22,18 @@ class LoginView(DjangoLoginView):
 
 
 class RegisterView(SuccessMessageMixin, CreateView):
-    #template_name = register_page
+    template_name = register_page
     model = User
     form_class = UserForm
-    success_message = '%(email)s cadastrado com sucesso'
+    success_message = 'Conta cadastrada com sucesso!'
     success_url = reverse_lazy('login')
 
+    '''def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form(self.get_form_class())
+
+        if form.is_valid():
+            print(form.cleaned_data)'''
 
 def reset_password(request):
-    return render(request, 'reset_password.html')
+    return render(request, 'users/reset_password.html')

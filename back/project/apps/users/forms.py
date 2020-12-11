@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UsernameField
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
+from apps.base.models import Institution
 
 User = get_user_model()
 
@@ -33,10 +34,19 @@ class UserForm(forms.ModelForm):
             }
         ),
     )
+    institution_name = forms.CharField(
+        label=_('Instituição'),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Instituição'
+            }
+        )
+    )
 
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'phone', 'password1', 'password2')
+        fields = ('full_name', 'email', 'phone', 'institution_name', 'password1', 'password2')
         widgets = {
             'email': forms.EmailInput(
                 attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}
@@ -52,7 +62,7 @@ class UserForm(forms.ModelForm):
                     'class': 'form-control form-control-lg',
                     'placeholder': 'Número de celular'
                 }
-            ),
+            )
         }
 
     def clean_password2(self):
@@ -68,13 +78,19 @@ class UserForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+
         if commit:
+            institution = Institution.objects.create(name=self.cleaned_data['institution_name'])
+            institution.save()
+            user.institution = institution
             user.save()
+
         return user
 
 
 class AuthenticationForm(forms.Form):
     username = UsernameField(
+        label=_('Email'),
         widget=forms.TextInput(
             attrs={
                 'autofocus': True,

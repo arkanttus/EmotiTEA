@@ -5,7 +5,7 @@ from .models import *
 class InstitutionForm(forms.ModelForm):
     class Meta:
         model = Institution
-        fields = ('owner', 'users', 'name', 'address', 'cnpj', 'state', 'city')
+        fields = ('owner', 'name', 'address', 'cnpj', 'state', 'city')
         widgets = {
             'name': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Nome da Instituição'}

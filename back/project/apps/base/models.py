@@ -1,4 +1,6 @@
 import uuid
+from datetime import datetime
+from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -24,23 +26,19 @@ class BaseModel(models.Model):
 
 
 class Institution(BaseModel):
-    owner = models.ForeignKey(
+    owner = models.OneToOneField(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_('Criador'),
         help_text=_('Criador desta instituição.'),
-        related_name='my_institution'
-    )
-    users = models.ManyToManyField(
-        User,
-        blank=True,
-        verbose_name=_('Membros da instituição')
+        related_name='my_institution',
+        null=True
     )
     name = models.CharField(_('Nome'), max_length=100)
-    address = models.CharField(_('Endereço'), max_length=255)
+    address = models.CharField(_('Endereço'), max_length=255, null=True, blank=True)
     cnpj = models.CharField(_('CNPJ'), max_length=18, null=True, blank=True)
-    state = models.CharField(_('Estado'), max_length=100)
-    city = models.CharField(_('Cidade'), max_length=100)
+    state = models.CharField(_('Estado'), max_length=100, null=True, blank=True)
+    city = models.CharField(_('Cidade'), max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name = _('Instituição')

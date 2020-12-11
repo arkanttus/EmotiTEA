@@ -1,0 +1,48 @@
+{% extends 'users/base_auth.html' %}
+
+{% block title %}
+    EmotiTEA - Cadastro
+{% endblock title %}
+
+{% block title_form %}
+    Cadastro
+{% endblock title_form %}
+
+{% block form %}
+    <form method="post">
+        {% csrf_token %}
+        
+
+        <div class="row mb-2 mt-2">
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.full_name %}
+            </div>
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.email %}
+            </div>
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.phone %}
+            </div>
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.institution_name %}
+            </div>
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.password1 %}
+            </div>
+            <div class="col-md-12">
+                {% include 'components/field.html' with field=form.password2 %}
+            </div>
+        </div>
+
+        <div class="d-grid gap">
+            <button class="btn text-white" type="submit" style="background-color: #FF7512;"  >
+                Cadastrar
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-around mt-3">
+            <a href="{% url 'login' %}" class="text-decoration-none text-muted">Login</a>
+            <a href="{% url 'reset_password' %}" class="text-decoration-none text-muted">Esqueci a senha</a>
+        </div>
+    </form>
+{% endblock form %}

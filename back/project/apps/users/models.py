@@ -18,6 +18,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     full_name = models.CharField(_('Nome Completo'), max_length=255)
     phone = models.CharField(_('Número de celular'), max_length=20, blank=True, null=True)
+    institution = models.ForeignKey(
+        'base.Institution',
+        on_delete=models.CASCADE,
+        verbose_name=_('Instituição'),
+        help_text=_('Instituição que o usuário faz parte'),
+        blank=True,
+        related_name='users'
+    )
     is_staff = models.BooleanField(_('Membro da Equipe'), default=False)
     is_active = models.BooleanField(
         _('Ativo'), default=True, help_text=_('Desative para tirar o acesso do usuário')
@@ -36,11 +44,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return f'{self.full_name[:30]}'
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            super().save(*args, **kwargs)
-            if self.id % 2 == 0:
-                self.music_group = 1
-            else:
-                self.music_group = 2
-        return super().save(*args, **kwargs)

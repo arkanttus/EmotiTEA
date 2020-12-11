@@ -78,22 +78,11 @@
         </div>
 
         <input type="button" data-formset-add id="question_add" class='btn btn-success' value="Nova Pergunta">
-        <input type="button" class='btn btn-success' value="FDP" onclick="teste()">
 
         <button type="submit" class='btn btn-success'>
             Enviar
         </button>
 
-        <script type="text/javascript">
-            const form_prefix = '{{ question_form.prefix }}'
-            console.log(form_prefix)
-        </script>
-
-        <script type='form-template' id='hue'>
-            {% escapescript %}
-                <input type='text' class="form-control" value='{{ alternative }}' data-input='alternative-{{ form.default_value.id_for_label }}'/>
-            {% endescapescript %}
-        </script>
 
         <script type="form-template" data-formset-empty-form>
             
