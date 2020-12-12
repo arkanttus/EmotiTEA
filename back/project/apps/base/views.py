@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, TemplateView
 from .models import Photos
 from .forms import PhotosForm
-from django.views.generic import CreateView
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'base/dashboard.html'
 
 
 class PhotoCreate(CreateView):

@@ -85,27 +85,6 @@ class Anamnesis(BaseModel):
         return f'{self.name}'
 
 
-
-'''
-class Alternative(BaseModel):
-    content = models.CharField(_('Conteúdo'), max_length=100)
-    question = models.ForeignKey(
-        Question,
-        verbose_name=_('Questão associada'),
-        related_name='alternatives',
-        on_delete=models.CASCADE
-    )
-
-    class Meta:
-        verbose_name = _('Alternativa')
-        verbose_name_plural = _('Alternativas')
-    
-
-    def __str__(self):
-        return f'{self.content}'
-'''
-
-
 class Answer(BaseModel):
     content = models.CharField(_('Resposta'), max_length=255)
     anamnese = models.ForeignKey(
@@ -120,12 +99,7 @@ class Answer(BaseModel):
         related_name='answers',
         on_delete=models.CASCADE
     )
-    '''alternative = models.ForeignKey(
-        Alternative,
-        verbose_name=_('Alternativa'),
-        blank=True,
-        on_delete=models.CASCADE
-    )'''
+
 
     class Meta:
         verbose_name = _('Resposta')
