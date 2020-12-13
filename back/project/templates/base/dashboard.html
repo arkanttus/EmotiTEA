@@ -1,5 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'base_dashboard_nonavbar.html' %}
+{% load static %}
 
-{% block body %}
-    {% include 'components/sidebar.html' %}
-{% endblock body %}
+{% block content %}
+    <div class="container menu">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-3 col-12 mt-4 content-icon">
+                <img src="{% static 'images/icons/alumns.svg' %}" class="icon" />
+                <a href="#" class="stretched-link mt-2 text-decoration-none">
+                    Alunos
+                </a>
+            </div>
+            <div class="col-md-3 col-12 content-icon mt-4">
+                <img src="{% static 'images/icons/monitor.svg' %}" class='icon'/>
+                <a href="#" class="stretched-link mt-2 text-decoration-none">
+                    Monitoramento
+                </a>
+            </div>
+            <div class="col-md-3 col-12 content-icon mt-4">
+                <img src="{% static 'images/icons/anamnese.svg' %}" class='icon'/>
+                <a href="#" class="stretched-link mt-2 text-decoration-none">
+                    Anamneses
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
