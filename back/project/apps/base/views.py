@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, TemplateView
-from .models import Photos
-from .forms import PhotosForm
+from django.views.generic import CreateView, TemplateView, ListView
+from .models import Photos, Student
+from .forms import PhotosForm, StudentForm
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'base/dashboard.html'
 
 
-class PhotoCreate(CreateView):
+class PhotoCreate(LoginRequiredMixin, CreateView):
     model = Photos
     form_class = PhotosForm
     template_name = 'base/photo_teste.html'
@@ -20,3 +20,16 @@ class PhotoCreate(CreateView):
 
         print(files)
 
+
+class StudentCreate(LoginRequiredMixin, CreateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'base/student_create.html'
+
+
+class StudentList(LoginRequiredMixin, ListView):
+    model = Student
+    template_name = 'base/student_list.html'
+
+    def get_queryset(self):
+        return Student.objects.filter(institution=self.request.user.institution)

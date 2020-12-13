@@ -18,7 +18,7 @@ class UserForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
-                'class': 'form-control form-control-lg',
+                'class': 'form-control',
                 'placeholder': 'Senha',
             }
         ),
@@ -29,7 +29,7 @@ class UserForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
-                'class': 'form-control form-control-lg',
+                'class': 'form-control',
                 'placeholder': 'Confirmação de senha',
             }
         ),
@@ -38,7 +38,7 @@ class UserForm(forms.ModelForm):
         label=_('Instituição'),
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control form-control-lg',
+                'class': 'form-control',
                 'placeholder': 'Instituição'
             }
         )
@@ -49,17 +49,17 @@ class UserForm(forms.ModelForm):
         fields = ('full_name', 'email', 'phone', 'institution_name', 'password1', 'password2')
         widgets = {
             'email': forms.EmailInput(
-                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}
+                attrs={'class': 'form-control', 'placeholder': 'Email'}
             ),
             'full_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-lg',
+                    'class': 'form-control',
                     'placeholder': 'Nome completo',
                 }
             ),
             'phone': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-lg',
+                    'class': 'form-control',
                     'placeholder': 'Número de celular'
                 }
             )
@@ -94,7 +94,7 @@ class AuthenticationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autofocus': True,
-                'class': 'form-control form-control-lg',
+                'class': 'form-control',
                 'placeholder': 'Email',
             }
         )
@@ -105,7 +105,7 @@ class AuthenticationForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'current-password',
-                'class': 'form-control form-control-lg',
+                'class': 'form-control',
                 'placeholder': 'Senha',
             }
         ),
@@ -125,7 +125,7 @@ class AuthenticationForm(forms.Form):
                 self.request, username=username, password=password
             )
             if self.user_cache is None:
-                raise forms.ValidationError(_('Usuário ou senha inválido'))
+                raise forms.ValidationError(_('Usuário ou senha inválido!'))
             else:
                 self.confirm_login_allowed(self.user_cache)
 

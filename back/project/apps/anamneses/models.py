@@ -75,6 +75,12 @@ class Anamnesis(BaseModel):
         verbose_name=_('Molde'),
         on_delete=models.CASCADE
     )
+    student = models.ForeignKey(
+        'base.Student',
+        verbose_name=_('Aluno'),
+        on_delete=models.CASCADE,
+        related_name='anamneses'
+    )
 
     class Meta:
         verbose_name = _('Anamnese')

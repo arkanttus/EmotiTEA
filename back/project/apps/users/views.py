@@ -28,12 +28,6 @@ class RegisterView(SuccessMessageMixin, CreateView):
     success_message = 'Conta cadastrada com sucesso!'
     success_url = reverse_lazy('login')
 
-    '''def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form(self.get_form_class())
-
-        if form.is_valid():
-            print(form.cleaned_data)'''
 
 def reset_password(request):
     return render(request, 'users/reset_password.html')

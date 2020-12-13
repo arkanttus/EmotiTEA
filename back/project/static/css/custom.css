@@ -121,3 +121,19 @@ div[data-formset-form-deleted] {
   justify-content: center;
   align-items: center;
 }
+
+body {
+  overflow: hidden;
+}
+
+.d-grid {
+  display: grid !important;
+}
+
+.d-md-grid {
+  display: grid !important;
+}
+
+.container-content {
+  padding: 1.5rem 1.5rem .75rem;
+}

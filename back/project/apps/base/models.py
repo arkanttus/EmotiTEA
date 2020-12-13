@@ -49,53 +49,27 @@ class Institution(BaseModel):
         return f'{self.name}'
 
 
-class Affiliation(BaseModel):
-    father_name = models.CharField(_('Nome do pai'), max_length=100)
-    father_age = models.IntegerField(_('Idade do pai'))
-    father_profission = models.CharField(_('Profissão do pai'), max_length=100)
-    father_workplace = models.CharField(_('Local de trabalho do pai'), max_length=255)
-    is_stepfather = models.BooleanField(_('É padrasto'), default=False)
-    mother_name = models.CharField(_('Nome da mãe'), max_length=100)
-    mother_age = models.IntegerField(_('Idade da mãe'))
-    mother_profission = models.CharField(_('Profissão da mãe'), max_length=100)
-    mother_workplace = models.CharField(_('Local de trabalho da mãe'), max_length=255)
-    is_stepmother = models.BooleanField(_('É madrasta'), default=False)
-
-    class Meta:
-        verbose_name = _('Filiação')
-        verbose_name_plural = _('Filiações')
-    
-
-    def __str__(self):
-        return f'Filiação de {self.student.name}'
-
-
 class Student(BaseModel):
     
     class Gender(models.TextChoices):
         FEMALE = 'F', _('Feminino')
         MALE = 'M', _('Masculino')
 
-    affiliation = models.ForeignKey(
-        Affiliation,
-        on_delete=models.CASCADE,
-        verbose_name=_('Filiação'),
-        help_text=_('Informações de Filiação'),
-        related_name='student'
-    )
-    anamnesis = models.OneToOneField(
-        'anamneses.Anamnesis',
-        on_delete=models.CASCADE,
-        verbose_name=_('Anamnese'),
-        related_name='student'
-    )
+
     institution = models.ForeignKey(
         Institution,
         on_delete=models.CASCADE,
         verbose_name=_('Instituição'),
         related_name='students'
     )
+    add_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('Adicionado por'),
+        related_name='students'
+    )
     name = models.CharField(_('Nome'), max_length=100)
+    name_class = models.CharField(_('Turma'), max_length=50)
     birthday = models.DateField(_('Data de nascimento'))
     gender = models.CharField(_('Gênero'), max_length=1, choices=Gender.choices, default=Gender.FEMALE)
     address = models.CharField(_('Endereço'), max_length=255)
@@ -115,6 +89,33 @@ class Student(BaseModel):
 
     def __str__(self):
         return f'{self.name}'
+
+
+class Affiliation(BaseModel):
+    student = models.OneToOneField(
+        Student,
+        on_delete=models.CASCADE,
+        verbose_name=_('Aluno'),
+        related_name='affiliation'
+    )
+    father_name = models.CharField(_('Nome do pai'), max_length=100)
+    father_age = models.IntegerField(_('Idade do pai'))
+    father_profission = models.CharField(_('Profissão do pai'), max_length=100)
+    father_workplace = models.CharField(_('Local de trabalho do pai'), max_length=255)
+    is_stepfather = models.BooleanField(_('É padrasto'), default=False)
+    mother_name = models.CharField(_('Nome da mãe'), max_length=100)
+    mother_age = models.IntegerField(_('Idade da mãe'))
+    mother_profission = models.CharField(_('Profissão da mãe'), max_length=100)
+    mother_workplace = models.CharField(_('Local de trabalho da mãe'), max_length=255)
+    is_stepmother = models.BooleanField(_('É madrasta'), default=False)
+
+    class Meta:
+        verbose_name = _('Filiação')
+        verbose_name_plural = _('Filiações')
+    
+
+    def __str__(self):
+        return f'Filiação de {self.student.name}'
 
 
 def path_image(instance, filename):

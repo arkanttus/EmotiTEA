@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -11,6 +12,7 @@ def date_next_form():
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     email = models.EmailField(
         _('Email'),
         unique=True,
@@ -24,6 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('Instituição'),
         help_text=_('Instituição que o usuário faz parte'),
         blank=True,
+        null=True,
         related_name='users'
     )
     is_staff = models.BooleanField(_('Membro da Equipe'), default=False)
