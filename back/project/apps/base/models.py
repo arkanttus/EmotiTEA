@@ -11,6 +11,11 @@ from .utils import normalize_filename
 User = get_user_model()
 
 
+class TrueFalse(models.TextChoices):
+    NO = 'NAO', _('Não')
+    YES = 'SIM', _('Sim')
+
+
 class BaseModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     created_at = models.DateTimeField(_('Criado em'), auto_now_add=True, editable=False)

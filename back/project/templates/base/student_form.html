@@ -1,0 +1,60 @@
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with field=form.name %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.birthday %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.gender %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with field=form.address %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.sus_number %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.phone %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.school_entry_date %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.name_class %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with field=form.has_nickname %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6 d-none nick">
+        {% include 'components/field.html' with field=form.nickname %}
+    </div>
+    <div class="col-12 col-md-6 d-none nick">
+        {% include 'components/field.html' with field=form.who_add_nickname %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6 d-none nick">
+        {% include 'components/field.html' with field=form.why_add_nickname %}
+    </div>
+    <div class="col-12 col-md-6 d-none nick">
+        {% include 'components/field.html' with field=form.likes_nickname %}
+    </div>
+</div>
+
+<div class="float-right">
+    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
+    <a href="{% url 'student_list' %}" class="btn btn-primary" >Próximo</a>
+</div>

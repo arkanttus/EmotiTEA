@@ -35,7 +35,7 @@ class QuestionCreate(CreateView):
                 obj.delete()
 
             for question in questions_instances:
-                question.institution = Institution.objects.get(id='5b62de2b-d096-41e6-991b-6f9bbb25964f')
+                question.institution = request.user.institution
 
             Question.objects.bulk_create(questions_instances)
 
@@ -55,7 +55,7 @@ class MoldCreate(CreateView):
 
     def get(self, request):
         self.object = None
-        self.questions = Question.objects.filter(Q(institution__id='5b62de2b-d096-41e6-991b-6f9bbb25964f') | Q(institution__id__isnull=True))
+        self.questions = Question.objects.filter(Q(institution=request.user.institution) | Q(institution__id__isnull=True))
 
         form = self.get_form(self.get_form_class())
 
@@ -67,7 +67,7 @@ class MoldCreate(CreateView):
     
     def post(self, request):
         self.object = None
-        institution = Institution.objects.get(id='5b62de2b-d096-41e6-991b-6f9bbb25964f')
+        institution = request.user.institution
         self.questions = Question.objects.filter(Q(institution=institution) | Q(institution__id__isnull=True))
 
         form = self.get_form(self.get_form_class())

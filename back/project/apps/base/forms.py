@@ -44,31 +44,31 @@ class AffiliationForm(forms.ModelForm):
             'father_workplace': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Local de trabalho do Pai'}
             ),
-            # 'is_stepfather': forms.BooleanField(
-            #     attrs={'class': 'form-control'}
-            # ),
+            'is_stepfather': forms.CheckboxInput(
+                attrs={'class': 'form-check-input'}
+            ),
             'mother_name': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Nome da Mãe'}
             ),
-            # 'mother_age': forms.IntegerField(
-            #     attrs={'class': 'form-control', 'placeholder': 'Idade da Mãe'}
-            # ),
+            'mother_age': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': 'Idade da Mãe'}
+            ),
             'mother_profission': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Profissão da Mãe'}
             ),
             'mother_workplace': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Local de trabalho da Mãe'}
             ),
-            # 'is_stepmother': forms.BooleanField(
-            #     attrs={'class': 'form-control'}
-            # )
+            'is_stepmother': forms.CheckboxInput(
+                attrs={'class': 'form-check-input'}
+            )
         }
 
 
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ('name', 'birthday', 'gender', 'address','phone', 'sus_number','has_nickname',
+        fields = ('name', 'birthday', 'gender', 'address','phone', 'name_class', 'sus_number','has_nickname',
         'nickname', 'who_add_nickname', 'why_add_nickname', 'likes_nickname', 'school_entry_date')
         widgets = {
             'name': forms.TextInput(
@@ -86,12 +86,15 @@ class StudentForm(forms.ModelForm):
             'phone': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Telefone do Aluno'}
             ),
+            'name_class': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Turma'}
+            ),
             'sus_number': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Número do SUS do Aluno'}
             ),
-            # 'has_nickname': forms.BooleanField(
-            #     attrs={'class': 'form-control'}
-            # ),
+            'has_nickname': forms.CheckboxInput(
+                attrs={'class': 'form-check-input', 'onclick': 'toggleNickFields()'}
+            ),
             'nickname': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Apelido do Aluno'}
             ),
@@ -101,9 +104,9 @@ class StudentForm(forms.ModelForm):
             'why_add_nickname': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Por que deu o apelido ao Aluno'}
             ),
-            # 'likes_nickname': forms.BooleanField(
-            #     attrs={'class': 'form-control'}
-            # ),
+            'likes_nickname': forms.CheckboxInput(
+                attrs={'class': 'form-check-input'}
+            ),
             'school_entry_date': forms.DateInput(
                 attrs={'class': 'form-control', 'placeholder': 'Data de entrada na escola'}
             )

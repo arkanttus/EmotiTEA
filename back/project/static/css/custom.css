@@ -123,7 +123,7 @@ div[data-formset-form-deleted] {
 }
 
 body {
-  overflow: hidden;
+  overflow: auto;
 }
 
 .d-grid {
@@ -136,4 +136,8 @@ body {
 
 .container-content {
   padding: 1.5rem 1.5rem .75rem;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  font-weight: bold;
 }

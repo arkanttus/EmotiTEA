@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, TemplateView, ListView
-from .models import Photos, Student
-from .forms import PhotosForm, StudentForm
+from .models import Photos, Student, Affiliation
+from .forms import PhotosForm, StudentForm, AffiliationForm
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -25,6 +25,23 @@ class StudentCreate(LoginRequiredMixin, CreateView):
     model = Student
     form_class = StudentForm
     template_name = 'base/student_create.html'
+
+    def get(self, request):
+        self.object = None
+        form = self.get_form(self.get_form_class())
+
+        affiliation_form = AffiliationForm()
+        photos_form = PhotosForm()
+
+
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                affiliation_form=affiliation_form,
+                photos_form=photos_form
+            )
+        )
+
 
 
 class StudentList(LoginRequiredMixin, ListView):
