@@ -2,6 +2,10 @@ div[data-formset-form-deleted] {
     display: none;
 }
 
+/*
+  BOOTSTRAP
+*/
+
 .form-floating {
   position: relative;
 }
@@ -22,6 +26,97 @@ div[data-formset-form-deleted] {
   transform-origin: 0 0;
   transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
+
+.fs-1 {
+  font-size: calc(1.375rem + 1.5vw) !important;
+}
+
+.fs-2 {
+  font-size: calc(1.325rem + 0.9vw) !important;
+}
+
+.fs-3 {
+  font-size: calc(1.3rem + 0.6vw) !important;
+}
+
+.fs-4 {
+  font-size: calc(1.275rem + 0.3vw) !important;
+}
+
+.fs-5 {
+  font-size: 1.25rem !important;
+}
+
+.fs-6 {
+  font-size: 1rem !important;
+}
+
+@media (min-width: 1200px) {
+  .fs-1 {
+    font-size: 2.5rem !important;
+  }
+
+  .fs-2 {
+    font-size: 2rem !important;
+  }
+
+  .fs-3 {
+    font-size: 1.75rem !important;
+  }
+
+  .fs-4 {
+    font-size: 1.5rem !important;
+  }
+
+  .fs-sm-1 {
+    font-size: 2.5rem !important;
+  }
+
+  .fs-sm-2 {
+    font-size: 2rem !important;
+  }
+
+  .fs-sm-3 {
+    font-size: 1.75rem !important;
+  }
+
+  .fs-sm-4 {
+    font-size: 1.5rem !important;
+  }
+
+  .fs-md-1 {
+    font-size: 2.5rem !important;
+  }
+
+  .fs-md-2 {
+    font-size: 2rem !important;
+  }
+
+  .fs-md-3 {
+    font-size: 1.75rem !important;
+  }
+
+  .fs-md-4 {
+    font-size: 1.5rem !important;
+  }
+
+  .fs-lg-1 {
+    font-size: 2.5rem !important;
+  }
+
+  .fs-lg-2 {
+    font-size: 2rem !important;
+  }
+
+  .fs-lg-3 {
+    font-size: 1.75rem !important;
+  }
+
+  .fs-lg-4 {
+    font-size: 1.5rem !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .form-floating > label {
     transition: none;
@@ -71,6 +166,26 @@ div[data-formset-form-deleted] {
     box-shadow: none;
 }
 
+.navbar-brand {
+  display: contents;
+}
+
+.d-grid {
+  display: grid !important;
+}
+
+.d-md-grid {
+  display: grid !important;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  font-weight: bold;
+}
+
+/*
+  END BOOTSTRAP
+*/
+
 .sidebar {
   z-index: 999999;
   position: fixed;
@@ -90,13 +205,8 @@ div[data-formset-form-deleted] {
   transition-property: opacity;
 }
 
-.navbar-brand {
-  display: contents;
-}
-
 .logo {
-  width: 10%;
-  height: 50px;
+  width: 80px;
 }
 
 .icon {
@@ -126,18 +236,15 @@ body {
   overflow: auto;
 }
 
-.d-grid {
-  display: grid !important;
-}
-
-.d-md-grid {
-  display: grid !important;
-}
-
 .container-content {
   padding: 1.5rem 1.5rem .75rem;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-  font-weight: bold;
+.icon-input {
+  width: 80px;
+  cursor: pointer;
+}
+
+.icon-input:hover {
+  width: 90px;
 }

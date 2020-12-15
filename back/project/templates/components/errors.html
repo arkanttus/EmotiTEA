@@ -1,0 +1,7 @@
+<div class="invalid-feedback">
+    {% for error in field.errors %}
+        {% if forloop.first %}
+        {% else %}, {% endif %}
+        {{ error|striptags }}
+    {% endfor %}
+</div>

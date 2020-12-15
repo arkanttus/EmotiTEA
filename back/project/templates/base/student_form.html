@@ -38,23 +38,18 @@
     </div>
 </div>
 <div class="row mb-2 mt-2">
-    <div class="col-12 col-md-6 d-none nick">
+    <div class="col-12 col-md-6 nick {% if form.instance.has_nickname != 'true' %} d-none {% endif %} ">
         {% include 'components/field.html' with field=form.nickname %}
     </div>
-    <div class="col-12 col-md-6 d-none nick">
+    <div class="col-12 col-md-6 nick {% if form.instance.has_nickname != 'true' %} d-none {% endif %} ">
         {% include 'components/field.html' with field=form.who_add_nickname %}
     </div>
 </div>
 <div class="row mb-2 mt-2">
-    <div class="col-12 col-md-6 d-none nick">
+    <div class="col-12 col-md-6 nick {% if form.instance.has_nickname != 'true' %} d-none {% endif %} ">
         {% include 'components/field.html' with field=form.why_add_nickname %}
     </div>
-    <div class="col-12 col-md-6 d-none nick">
+    <div class="col-12 col-md-6 nick {% if form.instance.has_nickname != 'true' %} d-none {% endif %} ">
         {% include 'components/field.html' with field=form.likes_nickname %}
     </div>
-</div>
-
-<div class="float-right">
-    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-    <a href="{% url 'student_list' %}" class="btn btn-primary" >Próximo</a>
 </div>

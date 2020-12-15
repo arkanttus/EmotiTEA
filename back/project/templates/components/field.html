@@ -6,6 +6,14 @@
             <label class="form-check-label" for="{{ field.id_for_label }}" >
                 {{ field.label }}
             </label>
+
+            {% if field.help_text %}
+                {% include 'components/help.html' with field=field %}
+            {% endif %}
+
+            {% if field.errors %}
+                {% include 'components/errors.hmtl' with field=field %}
+            {% endif %}
         </div>
     {% else %}
         {% for radio in field %}
@@ -35,19 +43,11 @@
         </label>
 
         {% if field.help_text %}
-            <small class="form-text text-muted">
-                {{ field.help_text }}
-            </small>
+            {% include 'components/help.html' with field=field %}
         {% endif %}
 
         {% if field.errors %}
-            <div class="invalid-feedback">
-                {% for error in field.errors %}
-                    {% if forloop.first %}
-                    {% else %}, {% endif %}
-                    {{ error|striptags }}
-                {% endfor %}
-            </div>
+            {% include 'components/errors.hmtl' with field=field %}
         {% endif %}
 
     </div>

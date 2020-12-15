@@ -35,7 +35,7 @@ class AffiliationForm(forms.ModelForm):
             'father_name': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Nome do Pai'}
             ),
-            'father_age': forms.TextInput(
+            'father_age': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': 'Idade do Pai'}
             ),
             'father_profission': forms.TextInput(
@@ -93,7 +93,7 @@ class StudentForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Número do SUS do Aluno'}
             ),
             'has_nickname': forms.CheckboxInput(
-                attrs={'class': 'form-check-input', 'onclick': 'toggleNickFields()'}
+                attrs={'class': 'form-check-input', 'onchange': 'toggleNickFields()'}
             ),
             'nickname': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Apelido do Aluno'}

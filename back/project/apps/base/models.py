@@ -11,11 +11,6 @@ from .utils import normalize_filename
 User = get_user_model()
 
 
-class TrueFalse(models.TextChoices):
-    NO = 'NAO', _('Não')
-    YES = 'SIM', _('Sim')
-
-
 class BaseModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     created_at = models.DateTimeField(_('Criado em'), auto_now_add=True, editable=False)
@@ -107,12 +102,12 @@ class Affiliation(BaseModel):
     father_age = models.IntegerField(_('Idade do pai'))
     father_profission = models.CharField(_('Profissão do pai'), max_length=100)
     father_workplace = models.CharField(_('Local de trabalho do pai'), max_length=255)
-    is_stepfather = models.BooleanField(_('É padrasto'), default=False)
+    is_stepfather = models.BooleanField(_('É padrasto'), default=False, help_text=_('Se for padrasto, marque está opção e preencha os campos referentes ao pai.'))
     mother_name = models.CharField(_('Nome da mãe'), max_length=100)
     mother_age = models.IntegerField(_('Idade da mãe'))
     mother_profission = models.CharField(_('Profissão da mãe'), max_length=100)
     mother_workplace = models.CharField(_('Local de trabalho da mãe'), max_length=255)
-    is_stepmother = models.BooleanField(_('É madrasta'), default=False)
+    is_stepmother = models.BooleanField(_('É madrasta'), default=False, help_text=_('Se for madrasta, marque está opção e preencha os campos referentes a mãe.'))
 
     class Meta:
         verbose_name = _('Filiação')
@@ -125,7 +120,7 @@ class Affiliation(BaseModel):
 
 def path_image(instance, filename):
     titulo_format = normalize_filename(filename)
-    return f'musics/{instance.pk}/{titulo_format}'
+    return f'photos/{instance.student.pk}/{titulo_format}'
 
 class Photos(BaseModel):
     path = models.ImageField(_('Imagem para treinamento da rede neural'), upload_to=path_image)
