@@ -3,8 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import Photos, Student, Affiliation
-from .forms import PhotosForm, StudentForm, AffiliationForm
+from .models import *
+from .forms import *
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -23,6 +23,16 @@ class PhotoCreate(LoginRequiredMixin, CreateView):
         print(files)
 
 
+class StudentList(LoginRequiredMixin, ListView):
+    model = Student
+    template_name = 'base/student_list.html'
+
+    def get_queryset(self):
+        return Student.objects.filter(institution=self.request.user.institution)
+
+
+#class StudentView(LoginRequiredMixin, )
+
 class StudentCreate(LoginRequiredMixin, CreateView):
     model = Student
     form_class = StudentForm
@@ -32,16 +42,31 @@ class StudentCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request):
         self.object = None
+        self.palliatives_measures = PalliativeMeasure.objects.filter(specific_student__id__isnull=True)
+        self.additional_information = AdditionalInformation.objects.filter(specific_student__id__isnull=True)
+        
+        if self.palliatives_measures.count() == 0:
+            messages.error(request, "Nenhuma Medida Paliativa criada!")
+            return redirect('student_list')
+        if self.additional_information.count() == 0:
+            messages.error(request, "Nenhuma Informação Adicional criada!")
+            return redirect('student_list')
+
         form = self.get_form(self.get_form_class())
 
         affiliation_form = AffiliationForm()
         photos_form = PhotosForm()
 
+        palliatives_measures = PalliativeMeasure.objects.all()
+        additional_information = AdditionalInformation.objects.all()
+
         return self.render_to_response(
             self.get_context_data(
                 form=form,
                 affiliation_form=affiliation_form,
-                photos_form=photos_form
+                photos_form=photos_form,
+                palliatives_measures=palliatives_measures,
+                additional_information=additional_information
             )
         )
     
@@ -84,10 +109,10 @@ class StudentCreate(LoginRequiredMixin, CreateView):
                 photos_form=photos_form
             )
         )
+    
+    def get_form_kwargs(self):
+        kwargs = super(StudentCreate, self).get_form_kwargs()
+        kwargs['palliatives_measures'] = self.palliatives_measures
+        kwargs['additional_information'] = self.additional_information
+        return kwargs
 
-class StudentList(LoginRequiredMixin, ListView):
-    model = Student
-    template_name = 'base/student_list.html'
-
-    def get_queryset(self):
-        return Student.objects.filter(institution=self.request.user.institution)

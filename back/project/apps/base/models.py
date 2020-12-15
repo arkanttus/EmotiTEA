@@ -86,7 +86,6 @@ class Student(BaseModel):
         verbose_name = _('Aluno')
         verbose_name_plural = _('Alunos')
     
-
     def __str__(self):
         return f'{self.name}'
 
@@ -113,9 +112,58 @@ class Affiliation(BaseModel):
         verbose_name = _('Filiação')
         verbose_name_plural = _('Filiações')
     
-
     def __str__(self):
         return f'Filiação de {self.student.name}'
+
+
+class PalliativeMeasure(BaseModel):
+    measure = models.CharField(_('Medida'), max_length=255, help_text=_('Medida paliativa do aluno'))
+    specific_student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        verbose_name=_('Aluno Específico'),
+        help_text=_('Se preenchido, essa medida estará disponível apenas para este aluno'),
+        blank=True,
+        null=True
+    )
+    student = models.ManyToManyField(
+        Student,
+        verbose_name=_('Alunos'),
+        related_name='palliatives_measures',
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = _('Medida Paliativa')
+        verbose_name_plural = _('Medidas Paliativas')
+    
+    def __str__(self):
+        return f'{self.measure}'
+
+
+class AdditionalInformation(BaseModel):
+    information = models.CharField(_('Informação Adicional'), max_length=255, help_text=_('Informação Adicional sobre o aluno'))
+    specific_student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        verbose_name=_('Aluno Específico'),
+        help_text=_('Se preenchido, essa informação estará disponível apenas para este aluno'),
+        blank=True,
+        null=True
+    )
+    student = models.ManyToManyField(
+        Student,
+        verbose_name=_('Alunos'),
+        related_name='additional_information',
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = _('Informação Adicional')
+        verbose_name_plural = _('Informações Adicionais')
+    
+    def __str__(self):
+        return f'{self.information}'
 
 
 def path_image(instance, filename):
@@ -127,7 +175,8 @@ class Photos(BaseModel):
     student = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
-        verbose_name=_('Aluno')
+        verbose_name=_('Aluno'),
+        related_name='photos'
     )
 
     class Meta:

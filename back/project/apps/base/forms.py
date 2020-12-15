@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django import forms
 from .models import *
 
@@ -66,10 +67,24 @@ class AffiliationForm(forms.ModelForm):
 
 
 class StudentForm(forms.ModelForm):
+    palliatives_measures = forms.ModelMultipleChoiceField(label=_('Medidas Paliativas'), required=True, queryset=None, 
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'form-check-input'}
+        )
+    )
+    additional_information = forms.ModelMultipleChoiceField(label=_('Informações Adicionais'), required=True, queryset=None, 
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'form-check-input'}
+        )
+    )
+
     class Meta:
         model = Student
-        fields = ('name', 'birthday', 'gender', 'address','phone', 'name_class', 'sus_number','has_nickname',
-        'nickname', 'who_add_nickname', 'why_add_nickname', 'likes_nickname', 'school_entry_date')
+        fields = (
+            'name', 'birthday', 'gender', 'address','phone', 'name_class', 'sus_number','has_nickname', 'nickname', 
+            'who_add_nickname', 'why_add_nickname', 'likes_nickname', 'school_entry_date', 'palliatives_measures', 
+            'additional_information'
+        )
         widgets = {
             'name': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Nome do Aluno'}
@@ -111,6 +126,28 @@ class StudentForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Data de entrada na escola'}
             )
         }
+    
+    def __init__(self, *args, **kwargs):
+        palliatives_measures = kwargs.pop('palliatives_measures', None)
+        additional_information = kwargs.pop('additional_information', None)
+
+        super(StudentForm, self).__init__(*args, **kwargs)
+
+        if palliatives_measures:
+            print('KRAI')
+            self.fields['palliatives_measures'].queryset = palliatives_measures
+        else:
+            print('AROMARBHADO')
+        if additional_information:
+            self.fields['additional_information'].queryset = additional_information
+
+
+'''class PalliativeMeasureForm(forms.ModelForm):
+    add_others = 
+
+    class Meta:
+        model = PalliativeMeasure
+        fields = ['measure', 'add_others', 'others']'''
 
 
 class PhotosForm(forms.ModelForm):

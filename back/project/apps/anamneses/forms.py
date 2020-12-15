@@ -35,7 +35,6 @@ class MoldForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Título'}
             ),
         }
-    
 
     def __init__(self, *args, **kwargs):
         question_queryset = kwargs.pop('question_queryset', None)
