@@ -252,3 +252,11 @@ body {
 .icon-input:hover {
   width: 90px;
 }
+
+.green {
+  color: #28B899;
+}
+
+.orange {
+  color: #FF7512;
+}
