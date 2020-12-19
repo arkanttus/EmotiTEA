@@ -68,6 +68,18 @@ class Student(BaseModel):
         verbose_name=_('Adicionado por'),
         related_name='students'
     )
+    palliatives_measures = models.ManyToManyField(
+        'base.PalliativeMeasure',
+        verbose_name=_('Medidas Paliativas'),
+        related_name='students',
+        blank=True
+    )
+    additional_information = models.ManyToManyField(
+        'base.AdditionalInformation',
+        verbose_name=_('Informações Adicionais'),
+        related_name='students',
+        blank=True
+    )
     name = models.CharField(_('Nome'), max_length=100)
     name_class = models.CharField(_('Turma'), max_length=50)
     birthday = models.DateField(_('Data de nascimento'))
@@ -126,12 +138,6 @@ class PalliativeMeasure(BaseModel):
         blank=True,
         null=True
     )
-    student = models.ManyToManyField(
-        Student,
-        verbose_name=_('Alunos'),
-        related_name='palliatives_measures',
-        blank=True
-    )
 
     class Meta:
         verbose_name = _('Medida Paliativa')
@@ -151,12 +157,7 @@ class AdditionalInformation(BaseModel):
         blank=True,
         null=True
     )
-    student = models.ManyToManyField(
-        Student,
-        verbose_name=_('Alunos'),
-        related_name='additional_information',
-        blank=True
-    )
+    
 
     class Meta:
         verbose_name = _('Informação Adicional')

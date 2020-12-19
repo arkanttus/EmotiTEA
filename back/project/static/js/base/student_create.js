@@ -40,3 +40,11 @@ function validateFields(currentStep){
 
     return true
 }
+
+function showOthers(type){
+    const txtArea = document.querySelector(`div[id="others_${type}"]`)
+
+    if (txtArea){
+        txtArea.classList.toggle('d-none')
+    }
+}

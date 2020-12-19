@@ -16,8 +16,11 @@
             {% endif %}
         </div>
     {% else %}
+        <h3>
+            {{ field.label }}
+        </h3>
         {% for radio in field %}
-            <div class="form-check">
+            <div class="form-check form-switch">
                 {{ radio.tag }}
                 
                 {% if modal %}

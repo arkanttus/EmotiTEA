@@ -2,4 +2,10 @@
     <div class="col-md-12">
         {% include 'components/field.html' with field=form.palliatives_measures %}
     </div>
+    <div class="col-md-12">
+        {% include 'components/field.html' with field=form.check_others_measures %}
+    </div>
+    <div class="col-md-6 d-none" id="others_measures">
+        {% include 'components/field.html' with field=form.others_measures %}
+    </div>
 </div>

@@ -67,14 +67,34 @@ class AffiliationForm(forms.ModelForm):
 
 
 class StudentForm(forms.ModelForm):
-    palliatives_measures = forms.ModelMultipleChoiceField(label=_('Medidas Paliativas'), required=True, queryset=None, 
+    palliatives_measures = forms.ModelMultipleChoiceField(label=_('Medidas Paliativas'), required=False, queryset=None, 
         widget=forms.CheckboxSelectMultiple(
             attrs={'class': 'form-check-input'}
         )
     )
-    additional_information = forms.ModelMultipleChoiceField(label=_('Informações Adicionais'), required=True, queryset=None, 
+    additional_information = forms.ModelMultipleChoiceField(label=_('Informações Adicionais'), required=False, queryset=None, 
         widget=forms.CheckboxSelectMultiple(
             attrs={'class': 'form-check-input'}
+        )
+    )
+    check_others_measures = forms.BooleanField(label=_('Outras'), required=False,
+        widget=forms.CheckboxInput(
+            attrs={'class': 'form-check-input', 'onclick': "showOthers('measures')"}
+        )
+    )
+    check_others_informations = forms.BooleanField(label=_('Outras'), required=False,
+        widget=forms.CheckboxInput(
+            attrs={'class': 'form-check-input', 'onclick': "showOthers('informations')"}
+        )
+    )
+    others_measures = forms.CharField(label=_('Outras medidas'), required=False,
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'style': 'height: 200px'}
+        )
+    )
+    others_informations = forms.CharField(label=_('Outras informações'), required=False,
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'style': 'height: 200px'}
         )
     )
 
@@ -83,7 +103,8 @@ class StudentForm(forms.ModelForm):
         fields = (
             'name', 'birthday', 'gender', 'address','phone', 'name_class', 'sus_number','has_nickname', 'nickname', 
             'who_add_nickname', 'why_add_nickname', 'likes_nickname', 'school_entry_date', 'palliatives_measures', 
-            'additional_information'
+            'additional_information', 'check_others_measures', 'check_others_informations', 'others_measures', 
+            'others_informations'
         )
         widgets = {
             'name': forms.TextInput(
@@ -128,18 +149,23 @@ class StudentForm(forms.ModelForm):
         }
     
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         palliatives_measures = kwargs.pop('palliatives_measures', None)
         additional_information = kwargs.pop('additional_information', None)
 
         super(StudentForm, self).__init__(*args, **kwargs)
 
         if palliatives_measures:
-            print('KRAI')
             self.fields['palliatives_measures'].queryset = palliatives_measures
-        else:
-            print('AROMARBHADO')
         if additional_information:
             self.fields['additional_information'].queryset = additional_information
+    
+    def clean(self, *args, **kwargs):
+        super(StudentForm, self).clean(*args, **kwargs)
+
+        if self.request:
+            self.instance.institution = self.request.user.institution
+            self.instance.add_by = self.request.user
 
 
 '''class PalliativeMeasureForm(forms.ModelForm):

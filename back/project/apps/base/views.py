@@ -72,11 +72,26 @@ class StudentCreate(LoginRequiredMixin, CreateView):
     
     def post(self, request):
         self.object = None
+        self.palliatives_measures = PalliativeMeasure.objects.filter(specific_student__id__isnull=True)
+        self.additional_information = AdditionalInformation.objects.filter(specific_student__id__isnull=True)
+        
+        if self.palliatives_measures.count() == 0:
+            messages.error(request, "Nenhuma Medida Paliativa criada!")
+            return redirect('student_list')
+        if self.additional_information.count() == 0:
+            messages.error(request, "Nenhuma Informação Adicional criada!")
+            return redirect('student_list')
+
         form = self.get_form(self.get_form_class())
 
         affiliation_form = AffiliationForm(request.POST)
         photos_form = PhotosForm(request.POST, request.FILES)
 
+        print(form.is_valid())
+        print(form.errors)
+            
+        print(affiliation_form.is_valid())
+        print(photos_form.is_valid())
         if form.is_valid() and affiliation_form.is_valid() and photos_form.is_valid():
             return self.form_valid(form, affiliation_form, photos_form)
         else:
@@ -85,10 +100,12 @@ class StudentCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form, affiliation_form, photos_form):
         user = self.request.user
 
-        self.object = student = form.save(commit=False)
-        student.institution = user.institution
-        student.add_by = user
-        student.save()
+        self.object = student = form.save()
+
+        if form.cleaned_data['check_others_measures'] :
+            student.palliatives_measures.create(measure=form.cleaned_data['others_measures'], specific_student=student)
+        if form.cleaned_data['check_others_informations'] :
+            student.additional_information.create(information=form.cleaned_data['others_informations'], specific_student=student)
 
         affiliation = affiliation_form.save(commit=False)
         affiliation.student = student
@@ -112,7 +129,9 @@ class StudentCreate(LoginRequiredMixin, CreateView):
     
     def get_form_kwargs(self):
         kwargs = super(StudentCreate, self).get_form_kwargs()
+        kwargs['request'] = self.request
         kwargs['palliatives_measures'] = self.palliatives_measures
         kwargs['additional_information'] = self.additional_information
         return kwargs
+
 

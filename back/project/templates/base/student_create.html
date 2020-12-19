@@ -52,8 +52,8 @@
                                 {% include 'base/student_form.html' with form=form %}
 
                                 <div class="float-right">
-                                    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-                                    <a class="btn btn-primary" onclick="toggleStep('next', 1, false)">Próximo</a>
+                                    <a href="{% url 'student_list' %}" class="btn btn-danger mt-2" >Cancelar</a>
+                                    <a class="btn btn-primary mt-2" onclick="toggleStep('next', 1, false)">Próximo</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-2">
@@ -62,9 +62,9 @@
                                 {% include 'base/affiliation_form.html' with form=affiliation_form %}
 
                                 <div class="float-right">
-                                    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-                                    <a class="btn btn-warning" onclick="toggleStep('prev', 2)">Anterior</a>
-                                    <a class="btn btn-primary" onclick="toggleStep('next', 2, false)">Próximo</a>
+                                    <a href="{% url 'student_list' %}" class="btn btn-danger mt-2" >Cancelar</a>
+                                    <a class="btn btn-warning mt-2" onclick="toggleStep('prev', 2)">Anterior</a>
+                                    <a class="btn btn-primary mt-2" onclick="toggleStep('next', 2, false)">Próximo</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-3">
@@ -73,9 +73,9 @@
                                 {% include 'base/palliative_form.html' with form=form %}
 
                                 <div class="float-right">
-                                    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-                                    <a class="btn btn-warning" onclick="toggleStep('prev', 3)">Anterior</a>
-                                    <a class="btn btn-primary" onclick="toggleStep('next', 3, true)">Próximo</a>
+                                    <a href="{% url 'student_list' %}" class="btn btn-danger mt-2" >Cancelar</a>
+                                    <a class="btn btn-warning mt-2" onclick="toggleStep('prev', 3)">Anterior</a>
+                                    <a class="btn btn-primary mt-2" onclick="toggleStep('next', 3, true)">Próximo</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-4">
@@ -84,9 +84,9 @@
                                 {% include 'base/information_form.html' with form=form %}
 
                                 <div class="float-right">
-                                    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-                                    <a class="btn btn-warning" onclick="toggleStep('prev', 4)">Anterior</a>
-                                    <a class="btn btn-primary" onclick="toggleStep('next', 4, true)">Próximo</a>
+                                    <a href="{% url 'student_list' %}" class="btn btn-danger mt-2" >Cancelar</a>
+                                    <a class="btn btn-warning mt-2" onclick="toggleStep('prev', 4)">Anterior</a>
+                                    <a class="btn btn-primary mt-2" onclick="toggleStep('next', 4, true)">Próximo</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-5">
@@ -95,9 +95,9 @@
                                 {% include 'base/photo_form.html' with form=photos_form %}
 
                                 <div class="float-right">
-                                    <a href="{% url 'student_list' %}" class="btn btn-danger" >Cancelar</a>
-                                    <a class="btn btn-warning" onclick="toggleStep('prev', 5)">Anterior</a>
-                                    <button class="btn btn-primary" type="submit">Salvar</button>
+                                    <a href="{% url 'student_list' %}" class="btn btn-danger mt-2" >Cancelar</a>
+                                    <a class="btn btn-warning mt-2" onclick="toggleStep('prev', 5)">Anterior</a>
+                                    <button class="btn btn-primary mt-2" type="submit">Salvar</button>
                                 </div>
                             </div>
                         </div>
