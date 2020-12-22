@@ -37,6 +37,7 @@ class MoldForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         question_queryset = kwargs.pop('question_queryset', None)
 
         super(MoldForm, self).__init__(*args, **kwargs)
@@ -44,22 +45,42 @@ class MoldForm(forms.ModelForm):
         if question_queryset:
             self.fields['questions'].queryset = question_queryset
 
+    def clean(self, *args, **kwargs):
+        super(MoldForm, self).clean(*args, **kwargs)
+
+        if self.request:
+            self.instance.institution = self.request.user.institution
 
 class AnamnesisForm(forms.ModelForm):
-    molds = forms.ModelChoiceField(required=True, queryset=None, widget=forms.Select(
+    student = forms.ModelChoiceField(label='Aluno', required=True, queryset=None, widget=forms.Select(
+        attrs={'class': 'form-select'}
+    ))
+    molds = forms.ModelChoiceField(label='Molde', required=True, queryset=None, widget=forms.Select(
         attrs={'class': 'form-select'}
     ))
 
     class Meta:
         model = Anamnesis
-        fields = ('molds',)
+        fields = ('student', 'molds',)
     
 
     def __init__(self, *args, **kwargs):
-        mold_queryset = kwargs.pop('mold_queryset', None)
+        self.request = kwargs.pop('request', None)
+        student_queryset = kwargs.pop('student', None)
+        molds_queryset = kwargs.pop('molds', None)
 
-        if mold_queryset:
-            self.fields['molds'].queryset = mold_queryset
+        super(AnamnesisForm, self).__init__(*args, **kwargs)
+
+        if student_queryset:
+            self.fields['student'].queryset = student_queryset
+        if molds_queryset:
+            self.fields['molds'].queryset = molds_queryset
+    
+    def clean(self, *args, **kwargs):
+        super(AnamnesisForm, self).clean(*args, **kwargs)
+
+        if self.request:
+            self.instance.institution = self.request.user.institution
 
 
 QuestionFormSet = forms.modelformset_factory(Question, QuestionForm, extra=2, can_delete=True)

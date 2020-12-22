@@ -22,6 +22,7 @@
 					<i class="align-middle" data-feather="users"></i> <span class="align-middle">Alunos</span>
 				</a>
 				<ul id="alumns" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'student_list' %}">Visualizar Alunos</a></li>
 					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'student_create' %}">Adicionar Alunos</a></li>
 				</ul>
 			</li>
@@ -33,9 +34,15 @@
 			</li>
 
 			<li class="sidebar-item">
-				<a class="sidebar-link" href="pages-invoice.html">
+				<a href="#anamnesis" data-toggle="collapse" class="sidebar-link collapsed">
 					<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Anamneses</span>
 				</a>
+				<ul id="anamnesis" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'anamnesis_list' %}">Visualizar Anamneses</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'anamnesis_create' %}">Adicionar Anamnese</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'mold_list' %}">Moldes</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{% url 'question_list' %}">Questões</a></li>
+				</ul>
 			</li>
 		
 

@@ -75,6 +75,13 @@ class Anamnesis(BaseModel):
         verbose_name=_('Molde'),
         on_delete=models.CASCADE
     )
+    institution = models.ForeignKey(
+        'base.Institution',
+        verbose_name=_('Instituição'),
+        related_name='anamneses',
+        on_delete=models.CASCADE,
+        blank=True
+    )
     student = models.ForeignKey(
         'base.Student',
         verbose_name=_('Aluno'),
@@ -88,7 +95,7 @@ class Anamnesis(BaseModel):
     
 
     def __str__(self):
-        return f'{self.name}'
+        return f'Anamnese de {self.student.name}'
 
 
 class Answer(BaseModel):

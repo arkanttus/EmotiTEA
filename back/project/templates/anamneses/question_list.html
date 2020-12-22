@@ -1,0 +1,57 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+
+{% block title_content %}
+    <strong>
+        Questões
+    </strong>
+{% endblock title_content %}
+
+{% block buttons_top %}
+    <a class="btn btn-success" href="{% url 'question_create' %}">
+        Adicionar Questões
+    </a>
+{% endblock buttons_top %}
+
+{% block content %}
+    {% if messages %}
+        <div class="row align-items-center py-4">
+            <div class="col">
+                {% include 'components/messages.html' %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Lista de Questões</h5>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Questão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for question in question_list %}
+                            <tr href="{% url 'student_list' %}">
+                                <td>{{ question }}</td>
+                                <td>
+                                    <a class="text-decoration-none mr-2" href="#" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="align-middle green" data-feather="edit-3" ></i>
+                                    </a>
+                                    <a class="text-decoration-none ml-2" href="#" data-toggle="tooltip" data-placement="top" title="Apagar">
+                                        <i class="align-middle orange" data-feather="trash-2" ></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

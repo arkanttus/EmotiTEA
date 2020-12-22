@@ -87,11 +87,6 @@ class StudentCreate(LoginRequiredMixin, CreateView):
         affiliation_form = AffiliationForm(request.POST)
         photos_form = PhotosForm(request.POST, request.FILES)
 
-        print(form.is_valid())
-        print(form.errors)
-            
-        print(affiliation_form.is_valid())
-        print(photos_form.is_valid())
         if form.is_valid() and affiliation_form.is_valid() and photos_form.is_valid():
             return self.form_valid(form, affiliation_form, photos_form)
         else:

@@ -6,7 +6,7 @@
     <strong>
         Adicionar
     </strong>
-    Questões
+    Anamnese
 {% endblock title_content %}
 
 {% block content %}
@@ -15,12 +15,14 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">
-                        Questões
+                        Anamnese
                     </h5>
                 </div>
                 <div class="card-body">
-                    {% csrf_token %}
-                    {% include 'anamneses/question_form.html' with form=form %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'anamneses/anamneses_form.html' with form=form %}
+                    </form>
                 </div>
             </div>
         </div>
@@ -28,11 +30,5 @@
 {% endblock content %}
 
 {% block body_script %}
-    <script type="text/javascript">
-        $(function() {
-            $("#question_form").formset({ animateForms: false });
-        });
-    </script>
 
-    <script src="{% static 'js/anamneses/question_create.js' %}"></script>
 {% endblock body_script %}
