@@ -13,22 +13,51 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">
-                        Anamnese
-                    </h5>
-                </div>
                 <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
+                        
                         {% csrf_token %}
-                        {% include 'anamneses/anamneses_form.html' with form=form %}
-                    </form>
+                        <div class="row mb-2 mt-2">
+                            <div class="col-12 col-md-6">
+                                {% include 'components/field.html' with field=form.student %}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {% include 'components/field.html' with field=form.mold %}
+                            </div>
+                        </div>
+                    
                 </div>
             </div>
         </div>
     </div>
+    <div id="questions">
+        {% include 'anamneses/anamneses_form.html' with form=form %}
+    </div>
+    <button class="btn btn-success btn-lg float-right mb-3" type="submit">
+        Salvar
+    </button>
+                    </form>
 {% endblock content %}
 
 {% block body_script %}
+    <script type="text/javascript">
+        const url = "{% url 'anamnesis_create' %}"
 
+        function handleMold(e){
+            window.location.href = `${url}?mold=${e.value}`
+        }
+
+        function handleBooleanField(e){
+            const label = document.querySelector(`label[for='${e.id}']`)
+    
+            if (e.checked){
+                label.innerHTML = 'Verdadeiro'  
+                e.value = 'Verdadeiro'
+            }
+            else{
+                label.innerHTML = 'Falso'
+                e.value = 'Falso'
+            }
+        }
+    </script>
 {% endblock body_script %}

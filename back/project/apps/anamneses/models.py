@@ -37,6 +37,9 @@ class Question(BaseModel):
         pass
         #if type_question == self.Types.TEXT
     
+    def serialize_alternatives(self, alternatives):
+        return ';'.join(alternatives)
+
     def deserialize_alternatives(self):
         alternatives = self.default_value
         if alternatives:

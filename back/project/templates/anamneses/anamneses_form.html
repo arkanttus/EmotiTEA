@@ -1,10 +1,37 @@
-<div class="row mb-2 mt-2">
-    <div class="col-12">
-        {% include 'components/field.html' with field=form.student %}
+{% for question in form.mold.initial.questions.all %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if question.type != 'TEXT' %}
+                        {% if question.type == 'MULTI_CHOICE' %}
+                            <div class="title mb-2">
+                                <h2 class="d-inline" >{{ question.description }}</h2> <small>(Resposta única)</small>
+                            </div>
+                            {% for alternative in question.deserialize_alternatives %}
+                                {% include 'components/radios.html' with label=alternative id=question.id idx=forloop.counter0 %}
+                            {% endfor %}
+                        {% elif question.type == 'CHECKBOXES' %}
+                            <div class="title mb-2">
+                                <h2 class="d-inline" >{{ question.description }}</h2> <small>(Múltiplas respostas)</small>
+                            </div>
+                            {% for alternative in question.deserialize_alternatives %}
+                                {% include 'components/checkboxes.html' with label=alternative id=question.id idx=forloop.counter0 %}
+                            {% endfor %}
+                        {% elif question.type == 'TRUE_FALSE' %}
+                            <div class="title mb-2">
+                                <h2 class="d-inline" >{{ question.description }}</h2> <small>(Verdadeiro ou falso)</small>
+                            </div>
+                            {% include 'components/boolean_field.html' with value=question.default_value id=question.id %}
+                        {% endif %}
+                    {% else %}
+                        <div class="title mb-2">
+                            <h2 class="d-inline" >{{ question.description }}</h2> <small>(Resposta de texto)</small>
+                        </div>
+                        {% include 'components/custom_input.html' with value=question.default_value id=question.id %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row mb-2 mt-2">
-    <div class="col-12">
-        {% include 'components/field.html' with field=form.molds %}
-    </div>
-</div>
+{% endfor %}

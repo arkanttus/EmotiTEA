@@ -55,26 +55,29 @@ class AnamnesisForm(forms.ModelForm):
     student = forms.ModelChoiceField(label='Aluno', required=True, queryset=None, widget=forms.Select(
         attrs={'class': 'form-select'}
     ))
-    molds = forms.ModelChoiceField(label='Molde', required=True, queryset=None, widget=forms.Select(
-        attrs={'class': 'form-select'}
+    mold = forms.ModelChoiceField(label='Molde', required=True, queryset=None, widget=forms.Select(
+        attrs={'class': 'form-select', 'onchange': 'handleMold(this)'}
     ))
 
     class Meta:
         model = Anamnesis
-        fields = ('student', 'molds',)
+        fields = ('student', 'mold',)
     
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         student_queryset = kwargs.pop('student', None)
-        molds_queryset = kwargs.pop('molds', None)
+        molds_queryset = kwargs.pop('mold', None)
+        initial_mold = kwargs.pop('initial_mold', None)
 
         super(AnamnesisForm, self).__init__(*args, **kwargs)
 
         if student_queryset:
             self.fields['student'].queryset = student_queryset
         if molds_queryset:
-            self.fields['molds'].queryset = molds_queryset
+            self.fields['mold'].queryset = molds_queryset
+        if initial_mold:
+            self.fields['mold'].initial = initial_mold
     
     def clean(self, *args, **kwargs):
         super(AnamnesisForm, self).clean(*args, **kwargs)

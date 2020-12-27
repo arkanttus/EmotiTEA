@@ -1,0 +1,16 @@
+<div class="form-check form-switch">
+    <input type="hidden" value="Falso" name="{{ id }}" />
+    <input class="form-check-input" type="checkbox" name="{{ id }}" onchange="handleBooleanField(this)"
+           id="id_{{ id }}_boolean" {% if value == 'true' %} checked value="Verdadeiro" {% else %} value="Falso" {% endif %} />
+    <label class="form-check-label" for="id_{{ id }}_boolean" >
+        {% if value == 'true' %} Verdadeiro {% else %} Falso {% endif %}
+    </label>
+
+    {% if field.help_text %}
+        {% include 'components/help.html' with field=field %}
+    {% endif %}
+
+    {% if field.errors %}
+        {% include 'components/errors.hmtl' with field=field %}
+    {% endif %}
+</div>

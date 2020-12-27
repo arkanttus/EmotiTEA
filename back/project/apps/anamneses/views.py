@@ -31,9 +31,15 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
     def get(self, request, *args, **kwargs):
         self.object = None
         institution = request.user.institution
+        selected_mold = request.GET.get('mold', None)
 
         self.students = institution.students
         self.molds = Mold.objects.filter(institution=institution)
+
+        if selected_mold:
+            self.initial_mold = self.molds.get(id=selected_mold)
+        else:
+            self.initial_mold = self.molds[0]
 
         if self.students.count() == 0:
             messages.error(request, "Nenhum estudante cadastrado!")
@@ -53,9 +59,18 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
     def post(self, request):
         self.object = None
         institution = request.user.institution
+        selected_mold = request.GET.get('mold', None)
+
+        print(selected_mold)
         
         self.students = institution.students
         self.molds = Mold.objects.filter(institution=institution)
+
+        if selected_mold:
+            self.initial_mold = self.molds.get(id=selected_mold)
+            print(self.initial_mold.questions.all())
+        else:
+            self.initial_mold = self.molds[0]
 
         if self.students.count() == 0:
             messages.error(request, "Nenhum estudante cadastrado!")
@@ -66,17 +81,50 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
 
         form = self.get_form(self.get_form_class())
 
+        print(form.data)
+
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
     
+    def form_valid(self, form):
+        self.object = form.save()
+        responses = []
+        for question in self.initial_mold.questions.all():
+            question_id = str(question.id)
+            if question.type == question.Types.CHECKBOXES:
+                form_response = form.data.getlist(question_id)
+                form_response = question.serialize_alternatives(form_response)
+            else:
+                form_response = form.data.get(question_id)
+            
+            responses.append(Answer(anamnese=self.object, question=question, content=form_response))
+            print(form_response)
+        
+        Answer.objects.bulk_create(responses)
+
+        messages.success(self.request, self.success_message)
+        return redirect(self.get_success_url())
+
     def get_form_kwargs(self):
         kwargs = super(AnamnesisCreate, self).get_form_kwargs()
         kwargs['request'] = self.request
         kwargs['student'] = self.students
-        kwargs['molds'] = self.molds
+        kwargs['mold'] = self.molds
+        kwargs['initial_mold'] = self.initial_mold
         return kwargs
+
+
+class AnamnesisRespond(SuccessMessageMixin, CreateView):
+    model = Anamnesis
+    template_name = 'anamneses/anamnesis_respond.html'
+    success_url = reverse_lazy('anamnesis_list')
+    success_message = 'Anamnese criada com sucesso!'
+
+    def get(self, request, student_id, mold_id, *args, **kwargs):
+        pass
+
 
 
 class QuestionList(ListView):

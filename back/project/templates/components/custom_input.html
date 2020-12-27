@@ -1,0 +1,18 @@
+<div class="form-floating mb-3 fs-6">
+
+    <input class="form-control" type="text" name="{{ id }}" id="id_{{ id_input }}_input" required="{{ required }}" 
+            placeholder="Resposta" value="{% firstof value '' %}" />
+    <label for="id_{{ id_input }}_input">
+        Resposta
+    </label>
+
+    {% if help_text %}
+        {% include 'components/help.html' with field=field %}
+    {% endif %}
+
+    {% if errors %}
+        {% include 'components/errors.hmtl' with field=field %}
+    {% endif %}
+
+</div>
+

@@ -166,7 +166,6 @@ function createBlockTrueFalse(parent, idxQuestion, idDiv){
 }
 
 function handleCheckbox(checkBox, label, idxQuestion){
-    console.log(label)
     const inputDefVal = document.querySelector(`[name='${idxQuestion}']`)
     
     if (checkBox.checked)

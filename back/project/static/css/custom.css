@@ -261,3 +261,35 @@ body {
 .orange {
   color: #FF7512;
 }
+
+.btn-green {
+  color: white;
+  background-color: #28B899;
+  border-color: #28B899;
+}
+
+.btn-green:hover {
+  color: white;
+  background-color: #16caa3;
+  border-color: #16caa3;
+}
+
+.btn-orange {
+  color: white;
+  background-color: #FF7512;
+  border-color: #FF7512;
+}
+
+.btn-orange:hover {
+  color: white;
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+}
+
+.text-white {
+  color: white !important;
+}
+
+.feather-plus {
+  stroke-width: 16%;
+}
