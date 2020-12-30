@@ -1,0 +1,19 @@
+<h3>Medidas Paliativas</h3>
+<div class="row mb-2 mt-2">
+    {% for measure in measures %}
+        <div class="col-12">
+            <i class="align-middle" data-feather="check" ></i>
+            {{ measure.measure }}
+        </div>
+    {% endfor %}
+</div>
+
+<h3 class="mt-4">Informações Adicionais</h3>
+<div class="row mb-2 mt-2">
+    {% for additional in additionals %}
+        <div class="col-12">
+            <i class="align-middle" data-feather="check" ></i>
+            {{ additional.information }}
+        </div>
+    {% endfor %}
+</div>

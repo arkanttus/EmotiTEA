@@ -60,15 +60,12 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
         self.object = None
         institution = request.user.institution
         selected_mold = request.GET.get('mold', None)
-
-        print(selected_mold)
         
         self.students = institution.students
         self.molds = Mold.objects.filter(institution=institution)
 
         if selected_mold:
             self.initial_mold = self.molds.get(id=selected_mold)
-            print(self.initial_mold.questions.all())
         else:
             self.initial_mold = self.molds[0]
 
@@ -80,8 +77,6 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
             return redirect('anamnesis_list')
 
         form = self.get_form(self.get_form_class())
-
-        print(form.data)
 
         if form.is_valid():
             return self.form_valid(form)
@@ -100,7 +95,6 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
                 form_response = form.data.get(question_id)
             
             responses.append(Answer(anamnese=self.object, question=question, content=form_response))
-            print(form_response)
         
         Answer.objects.bulk_create(responses)
 
@@ -114,17 +108,6 @@ class AnamnesisCreate(SuccessMessageMixin, CreateView):
         kwargs['mold'] = self.molds
         kwargs['initial_mold'] = self.initial_mold
         return kwargs
-
-
-class AnamnesisRespond(SuccessMessageMixin, CreateView):
-    model = Anamnesis
-    template_name = 'anamneses/anamnesis_respond.html'
-    success_url = reverse_lazy('anamnesis_list')
-    success_message = 'Anamnese criada com sucesso!'
-
-    def get(self, request, student_id, mold_id, *args, **kwargs):
-        pass
-
 
 
 class QuestionList(ListView):
@@ -175,6 +158,7 @@ class QuestionCreate(CreateView):
 
         messages.success(self.request, self.success_message)
         return redirect(self.get_success_url())
+
 
 class MoldList(ListView):
     model = Mold

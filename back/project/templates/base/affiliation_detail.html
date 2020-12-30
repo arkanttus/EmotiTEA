@@ -1,0 +1,42 @@
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.father_name label='Nome do pai' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.father_age label='Idade do pai' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.father_profission label='Profissão do pai' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.is_stepfather label='É padrasto' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with readonly=True value=student.father_workplace label='Local de trabalho do pai' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.mother_name label='Nome da mãe' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.mother_age label='Idade da mãe' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.mother_profission label='Profissão da mãe' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.is_stepmother label='É madrasta' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with readonly=True value=student.mother_workplace label='Local de trabalho da mãe' %}
+    </div>
+</div>

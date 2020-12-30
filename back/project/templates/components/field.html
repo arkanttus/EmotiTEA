@@ -34,6 +34,13 @@
         {% endfor %}
     {% endif %}
 
+{% elif readonly %}
+    <div class="form-floating mb-3 fs-6">
+        <input disabled class="form-control" value="{{ value }}" />
+        <label>
+            {{ label }}
+        </label>
+    </div>
 {% else %}
     <div class="form-floating mb-3 fs-6">
 

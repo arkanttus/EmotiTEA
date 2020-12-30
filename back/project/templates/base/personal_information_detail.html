@@ -1,0 +1,57 @@
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with readonly=True value=student.name label='Nome'  %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.birthday label='Data de Nascimento' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.gender label='Sexo' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with readonly=True value=student.address label='Endereço' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.sus_number label='Número do SUS' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.phone label='Telefone' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.school_entry_date label='Data de Entrada na Escola' %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include 'components/field.html' with readonly=True value=student.name_class label='Turma' %}
+    </div>
+</div>
+<div class="row mb-2 mt-2">
+    <div class="col-12">
+        {% include 'components/field.html' with readonly=True value=student.has_nickname label='Tem Apelido' %}
+    </div>
+</div>
+{% if student.has_nickname == True %}
+    <div class="row mb-2 mt-2">
+        <div class="col-12 col-md-6 nick">
+            {% include 'components/field.html' with readonly=True value=student.nickname label='Apelido' %}
+        </div>
+        <div class="col-12 col-md-6 nick">
+            {% include 'components/field.html' with readonly=True value=student.who_add_nickname label='Quem deu o apelido?' %}
+        </div>
+    </div>
+    <div class="row mb-2 mt-2">
+        <div class="col-12 col-md-6 nick">
+            {% include 'components/field.html' with readonly=True value=student.why_add_nickname label='Por que deu o apelido?' %}
+        </div>
+        <div class="col-12 col-md-6 nick">
+            {% include 'components/field.html' with readonly=True value=student.likes_nickname label='Gosta do apelido?' %}
+        </div>
+    </div>
+{% endif %}

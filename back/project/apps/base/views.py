@@ -1,6 +1,10 @@
+from os import listdir
+from os.path import isfile, join
+from django.contrib.staticfiles.utils import get_files
+from django.contrib.staticfiles.storage import StaticFilesStorage
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import CreateView, TemplateView, ListView, DetailView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import *
@@ -30,8 +34,6 @@ class StudentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Student.objects.filter(institution=self.request.user.institution)
 
-
-#class StudentView(LoginRequiredMixin, )
 
 class StudentCreate(LoginRequiredMixin, CreateView):
     model = Student
@@ -130,3 +132,19 @@ class StudentCreate(LoginRequiredMixin, CreateView):
         return kwargs
 
 
+class MonitoringView(ListView):
+    model = Student
+    template_name = 'base/monitoring.html'
+
+    def get_queryset(self):
+        return Student.objects.filter(institution=self.request.user.institution)
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['videos'] = [f for f in listdir('static/videos') if isfile(join('static/videos', f))]
+        return context
+
+
+class MonitoringIndividual(DetailView):
+    model = Student
+    template_name = 'base/monitoring_individual.html'

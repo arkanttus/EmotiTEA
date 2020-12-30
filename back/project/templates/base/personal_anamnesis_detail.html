@@ -1,0 +1,21 @@
+{% if not anamnesis %}
+    <h3>Nenhuma Anamnese criada!</h3>
+{% else %}
+    {% for answer in anamnesis.answers.all %}
+        <div class="row mb-2 mt-2">
+            <div class="col-12">
+                {% if answer.question.type == 'CHECKBOXES' %}
+                    <h5>{{ answer.question.description }}</h5>
+                    {% for alternative in answer.question.deserialize_alternatives %}
+                        <div class="d-block">
+                            <i class="align-middle" data-feather="check" ></i>
+                            {{ alternative }}
+                        </div>    
+                    {% endfor %}
+                {% else %}
+                    {% include 'components/field.html' with readonly=True value=answer label=answer.question.description %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
