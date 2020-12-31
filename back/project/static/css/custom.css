@@ -297,3 +297,31 @@ body {
 .card-monitoring {
   padding-bottom: 0;
 }
+
+.bg-happy {
+    background-color: #30B55C;
+}
+
+.bg-sad {
+  background-color: #3AA7F9;
+}
+
+.bg-angry {
+  background-color: #F3161E;
+}
+
+.bg-fear {
+  background-color: #6C6D76 ;
+}
+
+.bg-surprise {
+  background-color: #F9F940;
+}
+
+.bg-disgust {
+  background-color: #753BC3;
+}
+
+.bg-neutral {
+  background-color: #A47551;
+}
