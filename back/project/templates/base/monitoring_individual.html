@@ -10,6 +10,7 @@
 {% endblock title_content %}
 
 {% block content %}
+    <input type="file" class="d-none" disabled/>
     <div class="row">
         <div class="col-12 col-md-5">
             <div class="card">
@@ -22,6 +23,7 @@
                         <source src="{% static 'videos/fear.mp4' %}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+                    <canvas id="overlay" />
                 {% endif %}
                 <div class="card-body card-monitoring">
                     <div class="mt-2 text-center">
@@ -89,5 +91,11 @@
 {% endblock content %}
 
 {% block body_script %}
+    <script type="text/javascript" >
+        const urlModel = "{{ model.url }}"
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <script src="{% static 'js/face_api/face-api.min.js' %}" ></script>
     <script src="{% static 'js/base/cam.js' %}" ></script>
 {% endblock body_script %}

@@ -187,5 +187,44 @@ class Photos(BaseModel):
 
     def __str__(self):
         return f'Imagem de {self.student.name}'
+
+
+def path_model(instance, filename):
+    titulo_format = normalize_filename(filename)
+    return f'models/{instance.pk}/{titulo_format}'
+
+class TrainedModel(BaseModel):
+    name = models.CharField(_('Nome do modelo'), max_length=100)
+    model = models.FileField(_('Modelo treinado'), upload_to=path_model)
+    observation = models.CharField(_('Observações'), blank=True, null=True, max_length=255)
+
+    class Meta:
+        verbose_name = _('Modelo Treinado')
+        verbose_name_plural = _('Modelos Treinados')
+    
+
+    def __str__(self):
+        return f'Modelo {self.name}'
+
+
+def path_weights(instance, filename):
+    titulo_format = normalize_filename(filename)
+    return f'models/{instance.trained_model.pk}/{titulo_format}'
+
+class WeightTrainedModel(BaseModel):
+    trained_model = models.ForeignKey(
+        TrainedModel,
+        verbose_name=_('Modelo Treinado'),
+        on_delete=models.CASCADE,
+        related_name='weights'
+    )
+    weight = models.FileField(_('Arquivo de pesos do modelo'), upload_to=path_weights)
+
+    class Meta:
+        verbose_name = _('Arquivo de pesos')
+        verbose_name_plural = _('Arquivos de pesos')
+    
+    def __str__(self):
+        return f'Peso de {self.trained_model.name}'
     
 

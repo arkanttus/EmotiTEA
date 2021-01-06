@@ -151,5 +151,19 @@ class MonitoringIndividual(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        trained_model = self.get_trained_model()
+
+        if not trained_model:
+            raise TrainedModel.DoesNotExist
+
+        context['model'] = trained_model
         context['me'] = self.request.GET.get('me') == 'true'
+        print(context)
         return context
+    
+    def get_trained_model(self):
+        trained_model = TrainedModel.objects.first()
+        print(trained_model.model)
+
+        if trained_model:
+            return trained_model.model

@@ -168,14 +168,6 @@ class StudentForm(forms.ModelForm):
             self.instance.add_by = self.request.user
 
 
-'''class PalliativeMeasureForm(forms.ModelForm):
-    add_others = 
-
-    class Meta:
-        model = PalliativeMeasure
-        fields = ['measure', 'add_others', 'others']'''
-
-
 class PhotosForm(forms.ModelForm):
     class Meta:
         model = Photos
@@ -188,3 +180,28 @@ class PhotosForm(forms.ModelForm):
             )
         }
 
+
+class WeightsForm(forms.ModelForm):
+    class Meta:
+        model = WeightTrainedModel
+        fields = ['weight',]
+        widgets = {
+            'weight': forms.ClearableFileInput(
+                attrs={
+                    'multiple': True
+                }
+            )
+        }
+
+class TrainedModelForm(forms.ModelForm):
+    weights = forms.FileField(label=_('Pesos do modelo'), required=False, widget=
+        forms.ClearableFileInput(
+            attrs={
+                'multiple': True
+            }
+        )
+    )
+
+    class Meta:
+        model = TrainedModel
+        fields = ['name', 'model', 'weights', 'observation']
