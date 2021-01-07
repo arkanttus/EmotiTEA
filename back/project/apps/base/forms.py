@@ -204,4 +204,4 @@ class TrainedModelForm(forms.ModelForm):
 
     class Meta:
         model = TrainedModel
-        fields = ['name', 'model', 'weights', 'observation']
+        fields = ['name', 'model', 'weights', 'observation', 'active']

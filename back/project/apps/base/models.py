@@ -197,12 +197,16 @@ class TrainedModel(BaseModel):
     name = models.CharField(_('Nome do modelo'), max_length=100)
     model = models.FileField(_('Modelo treinado'), upload_to=path_model)
     observation = models.CharField(_('Observações'), blank=True, null=True, max_length=255)
+    active = models.BooleanField(
+        verbose_name=_('Modelo Ativo'), 
+        help_text=_('Marque esta opção para que esse modelo seja utilizado. (Qualquer outro modelo ativo será desativado)'),
+        default=False
+    )
 
     class Meta:
         verbose_name = _('Modelo Treinado')
         verbose_name_plural = _('Modelos Treinados')
     
-
     def __str__(self):
         return f'Modelo {self.name}'
 

@@ -158,12 +158,11 @@ class MonitoringIndividual(DetailView):
 
         context['model'] = trained_model
         context['me'] = self.request.GET.get('me') == 'true'
-        print(context)
+
         return context
     
     def get_trained_model(self):
-        trained_model = TrainedModel.objects.first()
-        print(trained_model.model)
-
+        trained_model = TrainedModel.objects.filter(active=True).first()
+        print(trained_model)
         if trained_model:
             return trained_model.model

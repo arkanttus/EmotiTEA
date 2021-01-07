@@ -4,77 +4,127 @@ if (navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(function (stream){
             video.srcObject = stream
+            video.play()
         })
         .catch(function (err) {
             console.log('ERRO')
         })
 }
 
-
-function preprocess(imgData) {
+function process_img(img){
     return tf.tidy(() => {
-        let tensor = tf.browser.fromPixels(imgData).toFloat();
+        // Transforma a imagem em um tensor de pixels e diminui seu tamanho para 48x48
+        const tensorI = tf.browser.fromPixels(img, 1).resizeBilinear([48, 48])
+        const tensor = tf.cast(tensorI, "float32")
 
-        tensor = tensor.resizeBilinear([100, 100]);
+        // Offset para normalizar a imagem. 255 por causa das cores rgb
+        const offset = tf.scalar(255.0)
+        
+        // Normalizando a imagem
+        const normalized = tensor.div(offset)
 
-        tensor = tf.cast(tensor, "float32");
-        const offset = tf.scalar(255.0);
-        // Normalize the image
-        const normalized = tensor.div(offset);
-        //We add a dimension to get a batch shape
-        const batched = normalized.expandDims(0);
-        return batched;
-    });
+        // Adicionando mais uma dimensão ao tensor da imagem, para ficar com o esperado shape [1, W, H, 1]
+        return normalized.expandDims(0)
+    })
 }
 
-async function getImage(){
-    const {width, height} = faceapi.getMediaDimensions(video)
-    const result = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions() )
+async function detectFaces(){
 
-    const canvas = document.querySelector('#overlay')
-    canvas.width = width
-    canvas.height = height
+    var canvas = document.getElementById('overlay'), 
+        canvas_out = document.getElementById('output'),
+        ctx_out,
+        ctx
 
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, width, height);
-    
-    var item = result.box
-    let s_x = Math.floor(item._x + offset_x)
+    const width = video.clientWidth
+    const height = video.clientHeight
 
-    if (item.y < offset_y) {
-        var s_y = Math.floor(item._y)
-    } else {
-        var s_y = Math.floor(item._y - offset_y)
+    // Canvas para desenhar o rosto
+    canvas.setAttribute('width', `${width}px`)
+    canvas.setAttribute('height', `${height}px`)
+    ctx = canvas.getContext('2d')
+
+    // Canvas para capturar os frames do video
+    canvas_out.setAttribute('width', `${width}px`)
+    canvas_out.setAttribute('height', `${height}px`)
+    ctx_out = canvas_out.getContext('2d')
+
+    const returnTensors = true;
+    const annotateBoxes = false
+    const predictions = await modelFace.estimateFaces(video, returnTensors, false, false);
+
+    if (predictions.length > 0) {
+        
+        for (let i = 0; i < 1; i++) {
+            if (returnTensors) {
+                predictions[i].topLeft = predictions[i].topLeft.arraySync();
+                predictions[i].bottomRight = predictions[i].bottomRight.arraySync();
+                if (annotateBoxes) {
+                    predictions[i].landmarks = predictions[i].landmarks.arraySync();
+                }
+            }
+
+            // Regra de três para compensar a diferença do tamanho de video capturado e tamanho de video esperado
+            const start = predictions[i].topLeft;
+            start[0] = (start[0] * width) / video.videoWidth
+            start[1] = (start[1] * height) / video.videoHeight
+
+            const end = predictions[i].bottomRight;
+            end[0] = (end[0] * width) / video.videoWidth
+            end[1] = (end[1] * height) / video.videoHeight
+
+            // Subtração entre os eixos X e Y para obter largura e altura
+            const size = [end[0] - start[0], end[1] - start[1]];
+
+            // Desenha o retangulo verde ao redor do rosto detectado
+            ctx.strokeStyle = 'green'
+            ctx.lineWidth = '4'
+            ctx.rect(start[0], start[1], size[0], size[1]);
+            ctx.stroke()
+
+            // Desenha o frame de video atual no canvas e obtem a imagem
+            ctx_out.drawImage(video, 0, 0, width, height);
+            const pimg = ctx_out.getImageData(start[0], start[1], size[0], size[1])
+ 
+            // Pré processamento da imagem, para poder ser classificada
+            const img = process_img(pimg)
+
+            await predict(img)
+        }
     }
 
-    let s_w = Math.floor(item._width - offset_x)
-    let s_h = Math.floor(item._height)
-    let cT = ctx.getImageData(s_x, s_y, s_w, s_h)
-
-    cT = preprocess(cT)
-
-    play(cT)
+    // Redesenha o canvas muitas vezes por segundo, de forma otimizada
+    window.requestAnimationFrame(detectFaces)
 }
 
-
-async function play(img){
-    console.log(urlModel)
-    const model = await tf.loadLayersModel(urlModel)
-    console.log(model)
-
-    //model.inputs.shape = [48, 48, 1]
-    //console.log(model)
+function drawEmotions(result){
+    const emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
     
-    
+    // Atualizando as barras de emoções
+    emotions.forEach((emot, index) => {
+        const bar = document.querySelector(`#${emot}`)
 
-    /*const vi = await tf.browser.fromPixels(video)
-    vi = vi.reshape([1, 48, 48, 1])
-    console.log(vi)*/
-    
+        if (bar) {
+            const value = Math.round((result[index] + Number.EPSILON) * 100)
+            bar.innerHTML = `${value}%`
+            bar.style.width = `${value}%`
+        }
+    })
+}
+
+async function predict(img){
     const prediction = model.predict(img)
-    console.log(prediction)
+    const arr = prediction.arraySync()
+
+    drawEmotions(arr[0])
 }
 
-video.addEventListener('loadeddata', (e) => {
-    getImage()
+
+video.addEventListener('play', async (e) => {
+    // Carregando o modelo para facial detection
+    modelFace = await blazeface.load();
+
+    // Carregando o modelo para emotion recognition
+    model = await tf.loadLayersModel(urlModel)
+    
+    detectFaces()
 })

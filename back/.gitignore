@@ -137,3 +137,4 @@ dmypy.json
 # VSCODE
 .vscode/
 media/
+.project/static/videos/*
