@@ -22,6 +22,14 @@
                     Anamneses
                 </a>
             </div>
+            {% if user == user.institution.owner %}
+                <div class="col-md-3 col-12 content-icon mt-4">
+                    <i class="align-middle" data-feather="users" style="width: 85px; height: 85px"></i>
+                    <a href="{% url 'user_list' %}" class="stretched-link mt-2 text-decoration-none">
+                        Usuários
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

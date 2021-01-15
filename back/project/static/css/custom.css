@@ -325,3 +325,7 @@ body {
 .bg-neutral {
   background-color: #A47551;
 }
+
+.invalid-feedback{
+  display: inline-block;
+}

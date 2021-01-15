@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UsernameField
-from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UsernameField, PasswordChangeForm
+from django.contrib.auth import get_user_model, password_validation
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
 from apps.base.models import Institution
@@ -80,8 +80,11 @@ class UserForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
 
         if commit:
-            institution = Institution.objects.create(name=self.cleaned_data['institution_name'])
+            user.save()
+
+            institution = Institution.objects.create(name=self.cleaned_data['institution_name'], owner=user)
             institution.save()
+
             user.institution = institution
             user.save()
 
@@ -140,3 +143,27 @@ class AuthenticationForm(forms.Form):
 
     def get_user(self):
         return self.user_cache
+
+
+class UpdatePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs=
+            {'autocomplete': 'current-password',
+            'autofocus': True,
+            'class': 'form-control'
+        }),
+    )
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        strip=False
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        help_text=_('Digite a mesma senha que você digitou anteriormente.')
+    )
+    

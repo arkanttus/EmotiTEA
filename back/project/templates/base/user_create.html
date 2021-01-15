@@ -1,0 +1,39 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+
+{% block title_content %}
+    <strong>
+        Adicionar
+    </strong>
+    Usuário
+{% endblock title_content %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="row mb-2 mt-2 justify-content-center">
+                                <div class="col-md-6">
+                                    {% include 'components/field.html' with field=field %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block body_script %}
+{% endblock body_script %}

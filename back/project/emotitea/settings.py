@@ -74,20 +74,7 @@ WSGI_APPLICATION = 'emotitea.wsgi.application'
 DATABASES = {'default': dj_database_url.parse(env('DB_URL'), conn_max_age=600) }
 
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+#AUTH_PASSWORD_VALIDATORS = []
 
 
 AUTH_USER_MODEL = 'users.User'

@@ -168,6 +168,66 @@ class StudentForm(forms.ModelForm):
             self.instance.add_by = self.request.user
 
 
+class UserForm(forms.ModelForm):
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
+    }
+    password1 = forms.CharField(
+        label=_("Senha"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Senha'}
+        )
+    )
+    password2 = forms.CharField(
+        label=_("Confirmar senha"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Confirmar senha'}
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = ['full_name', 'email', 'phone', 'password1', 'password2']
+        widgets = {
+            'full_name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Nome Completo'}
+            ),
+            'email': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Email'}
+            ),
+            'phone': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Telefone'}
+            )
+        }
+    
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request', None)
+        self.user = request.user
+        super(UserForm, self).__init__(*args, **kwargs)
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
+            )
+        return password2
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+
+        if commit:
+            user.institution = self.user.institution
+            user.save()
+
+        return user
+
+
 class PhotosForm(forms.ModelForm):
     class Meta:
         model = Photos

@@ -1,0 +1,59 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+
+{% block title_content %}
+    <strong>
+        Usuários
+    </strong>
+{% endblock title_content %}
+
+{% block buttons_top %}
+    <a class="btn btn-success" href="{% url 'user_create' %}">
+        Adicionar Usuario <i class="align-middle text-white" data-feather="plus" ></i>
+    </a>
+{% endblock buttons_top %}
+
+{% block content %}
+    {% if messages %}
+        <div class="row align-items-center py-4">
+            <div class="col">
+                {% include 'components/messages.html' %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Lista de Usuários</h5>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in user_list %}
+                            <tr href="{% url 'student_list' %}">
+                                <td>{{ user }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <a class="text-decoration-none mr-2" href="#" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="align-middle green" data-feather="edit-3" ></i>
+                                    </a>
+                                    <a class="text-decoration-none ml-2" href="#" data-toggle="tooltip" data-placement="top" title="Apagar">
+                                        <i class="align-middle orange" data-feather="trash-2" ></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

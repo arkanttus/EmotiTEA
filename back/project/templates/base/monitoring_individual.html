@@ -21,11 +21,12 @@
                         <canvas id="output" style="position: absolute;" class="d-none"></canvas>
                         <canvas id="overlay" style="position: absolute;"></canvas>
                     {% else %}
-                        <video width="100%" height="100%" loop autoplay muted>
-                            <source src="{% static 'videos/fear.mp4' %}" type="video/mp4">
+                        <video width="100%" height="100%" loop autoplay muted id="videoCam">
+                            <source src="{% static 'videos/surprise.mp4' %}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
-                        <canvas id="output"></canvas>
+                        <canvas id="output" style="position: absolute;" class="d-none"></canvas>
+                        <canvas id="overlay" style="position: absolute;"></canvas>
                     {% endif %}
                 
                 <div class="card-body card-monitoring">
@@ -94,13 +95,22 @@
 {% endblock content %}
 
 {% block body_script %}
-    <script type="text/javascript" >
-        const urlModel = "{{ model.url }}"
-        const urlTiny = "{% static 'js/face_api/models/tiny_model_manifest.json' %}"
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.*/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
-    <script src="{% static 'js/face_api/face-api.js' %}" ></script>
-    <script src="{% static 'js/base/cam.js' %}" ></script>
+    <script src="{% static 'js/base/detectEmotion.js' %}" ></script>
+    {% if me %}
+        <script src="{% static 'js/base/cam.js' %}" ></script>
+    {% endif %}
+
+    <script type="text/javascript" >
+        const urlModel = "{{ model.url }}"
+        var video = document.querySelector('#videoCam')
+        console.log(video.readyState)
+        
+        video.addEventListener('loadeddata', async (e) => {
+            await loadModels()
+            await detectFaces()
+        })
+        
+    </script>
 {% endblock body_script %}

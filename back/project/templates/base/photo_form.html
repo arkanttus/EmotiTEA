@@ -6,7 +6,18 @@
 
         <img src="{% static 'images/icons/download.svg' %}" onclick="inputButtonClick('{{ form.path.auto_id }}')" class='icon-input' title='Selecionar Imagens'/>
     </div>
+
     <div class="col-12 col-md-9 d-flex justify-content-center align-items-start flex-column mt-3 mb-3">
+        <p class="text-dark fs-5" id="details-file">
+            Adicionar fotos do aluno.
+        </p>
+
+        <p class="text-danger">
+            * Enviar 1 ou mais imagens.
+        </p>
+    </div>
+
+    <!--<div class="col-12 col-md-9 d-flex justify-content-center align-items-start flex-column mt-3 mb-3">
         <p class="text-dark fs-5" id="details-file">
             Adicione fotos do rosto do aluno, em diferentes posições. Essas fotos serão utilizadas para o treinamento da rede neural.
         </p>
@@ -14,6 +25,6 @@
         <p class="text-danger">
             * Para melhor treinamento da rede, envie pelo menos 20 imagens.
         </p>
-    </div>
+    </div>-->
 </div>
 

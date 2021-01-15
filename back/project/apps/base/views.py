@@ -1,14 +1,16 @@
 from os import listdir
 from os.path import isfile, join
-from django.contrib.staticfiles.utils import get_files
-from django.contrib.staticfiles.storage import StaticFilesStorage
+from django.contrib import messages
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.staticfiles.utils import get_files
+from django.contrib.staticfiles.storage import StaticFilesStorage
 from django.views.generic import CreateView, TemplateView, ListView, DetailView
-from django.urls import reverse_lazy
-from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from .models import *
 from .forms import *
+from .permissions import *
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -145,7 +147,7 @@ class MonitoringView(ListView):
         return context
 
 
-class MonitoringIndividual(DetailView):
+class MonitoringIndividual(CanHandleStudent, DetailView):
     model = Student
     template_name = 'base/monitoring_individual.html'
     
@@ -166,3 +168,24 @@ class MonitoringIndividual(DetailView):
         print(trained_model)
         if trained_model:
             return trained_model.model
+
+
+class UserList(LoginRequiredMixin, IsInstitutionOwner, ListView):
+    model = User
+    template_name = 'base/user_list.html'
+
+    def get_queryset(self):
+        return User.objects.filter(institution=self.request.user.institution).exclude(id=self.request.user.id)
+
+
+class UserCreate(LoginRequiredMixin, IsInstitutionOwner, SuccessMessageMixin, CreateView):
+    model = User
+    form_class = UserForm
+    template_name = 'base/user_create.html'
+    success_url = reverse_lazy('user_list')
+    success_message = 'Usuário criado com sucesso!'
+
+    def get_form_kwargs(self):
+        kwargs = super(UserCreate, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
