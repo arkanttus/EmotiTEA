@@ -32,21 +32,14 @@
                     <thead>
                         <tr>
                             <th>Questão</th>
-                            <th>Ações</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         {% for question in question_list %}
                             <tr href="{% url 'student_list' %}">
                                 <td>{{ question }}</td>
-                                <td>
-                                    <a class="text-decoration-none mr-2" href="#" data-toggle="tooltip" data-placement="top" title="Editar">
-                                        <i class="align-middle green" data-feather="edit-3" ></i>
-                                    </a>
-                                    <a class="text-decoration-none ml-2" href="#" data-toggle="tooltip" data-placement="top" title="Apagar">
-                                        <i class="align-middle orange" data-feather="trash-2" ></i>
-                                    </a>
-                                </td>
+                                
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -39,7 +39,7 @@
                         <tr>
                             <th>Anamnese</th>
                             <th>Aluno</th>
-                            <th>Ações</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -47,14 +47,7 @@
                             <tr href="{% url 'student_list' %}">
                                 <td>{{ anamnesis }}</td>
                                 <td>{{ student.name_class }}</td>
-                                <td>
-                                    <a class="text-decoration-none mr-2" href="#" data-toggle="tooltip" data-placement="top" title="Editar">
-                                        <i class="align-middle green" data-feather="edit-3" ></i>
-                                    </a>
-                                    <a class="text-decoration-none ml-2" href="#" data-toggle="tooltip" data-placement="top" title="Apagar">
-                                        <i class="align-middle orange" data-feather="trash-2" ></i>
-                                    </a>
-                                </td>
+                                
                             </tr>
                         {% endfor %}
                     </tbody>

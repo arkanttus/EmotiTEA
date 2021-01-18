@@ -1,0 +1,76 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+
+{% block title_content %}
+    <strong>
+        Aluno
+    </strong>
+    {{ student.name }}
+{% endblock title_content %}
+
+
+{% block content %}
+    {% if messages %}
+        <div class="row align-items-center py-4">
+            <div class="col">
+                {% include 'components/messages.html' %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs pull-right" id="tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1">
+                                Informações Pessoais
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-2">
+                                Filiação
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-3">
+                                Medidas Paliativas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-4">
+                                Anamnese
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="steps">
+                        <div class="tab-pane fade active show" id="tab-1">
+                            <h4 class="card-title"></h4>
+                            
+                            {% include 'base/personal_information_detail.html' with student=student %}
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <h4 class="card-title"></h4>
+
+                            {% include 'base/affiliation_detail.html' with student=student.affiliation %}
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <h4 class="card-title"></h4>
+                            {% include 'base/palliative_and_informations_detail.html' with measures=student.palliatives_measures.all additionals=student.additional_information.all %}
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <h4 class="card-title"></h4>
+                            {% include 'base/personal_anamnesis_detail.html' with anamnesis=student.anamneses.first %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+

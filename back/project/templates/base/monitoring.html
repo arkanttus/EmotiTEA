@@ -43,23 +43,26 @@
                 </div>
             </a>
         </div>
-        <div class="col-12 col-md-4">
-            <a href="{% url 'monitoring_individual' student_list.1.id %}" data-toggle="tooltip" data-placement="top" title="Clique para mais informações">
-                <div class="card">
-                    <video width="100%" height="100%" loop autoplay muted>
-                        <source src="{% static 'videos/'|addstr:videos.1 %}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="card-body card-monitoring">
-                        <div class="mt-2 text-center">
-                                <h4 class="d-inline-block" >
-                                    {{ student_list.1 }}
-                                </h4>
+        {% if student_list.1 %}
+            <div class="col-12 col-md-4">
+                <a href="{% url 'monitoring_individual' student_list.1.id %}" data-toggle="tooltip" data-placement="top" title="Clique para mais informações">
+                    <div class="card">
+                        <video width="100%" height="100%" loop autoplay muted>
+                            <source src="{% static 'videos/'|addstr:videos.1 %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="card-body card-monitoring">
+                            <div class="mt-2 text-center">
+                                    <h4 class="d-inline-block" >
+                                        {{ student_list.1 }}
+                                    </h4>
+                                </div>
                             </div>
-                        </div>
-                </div>
-            </a>
-        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if student_list.2 %}
         <div class="col-12 col-md-4">
             <a href="{% url 'monitoring_individual' student_list.2.id %}" data-toggle="tooltip" data-placement="top" title="Clique para mais informações">
                 <div class="card">
@@ -77,6 +80,8 @@
                 </div>
             </a>
         </div>
+    {% endif %}
+        {% if student_list.3 %}
         <div class="col-12 col-md-4">
             <a href="{% url 'monitoring_individual' student_list.3.id %}" data-toggle="tooltip" data-placement="top" title="Clique para mais informações">
                 <div class="card">
@@ -94,6 +99,8 @@
                 </div>
             </a>
         </div>
+{% endif %}
+        {% if student_list.4 %}
         <div class="col-12 col-md-4">
             <a href="{% url 'monitoring_individual' student_list.4.id %}" data-toggle="tooltip" data-placement="top" title="Clique para mais informações">
                 <div class="card">
@@ -111,6 +118,7 @@
                 </div>
             </a>
         </div>
+        {% endif %}
     </div>
 {% endblock content %}
 

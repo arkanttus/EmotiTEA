@@ -37,6 +37,11 @@ class StudentList(LoginRequiredMixin, ListView):
         return Student.objects.filter(institution=self.request.user.institution)
 
 
+class StudentView(LoginRequiredMixin, DetailView):
+    model = Student
+    template_name = 'base/student_view.html'
+
+
 class StudentCreate(LoginRequiredMixin, CreateView):
     model = Student
     form_class = StudentForm
