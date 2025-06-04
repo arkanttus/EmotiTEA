@@ -49,11 +49,41 @@ class StudentCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('student_list')
     success_message = 'Aluno criado com sucesso!'
 
+    def post(self, request):
+        self.object = None
+        self.palliatives_measures = PalliativeMeasure.objects.filter(
+            specific_student__id__isnull=True
+        )
+        self.additional_information = AdditionalInformation.objects.filter(
+            specific_student__id__isnull=True
+        )
+
+        if self.palliatives_measures.count() == 0:
+            messages.error(request, "Nenhuma Medida Paliativa criada!")
+            return redirect('student_list')
+        if self.additional_information.count() == 0:
+            messages.error(request, "Nenhuma Informação Adicional criada!")
+            return redirect('student_list')
+
+        form = self.get_form(self.get_form_class())
+
+        affiliation_form = AffiliationForm(request.POST)
+        photos_form = PhotosForm(request.POST, request.FILES)
+
+        if form.is_valid() and affiliation_form.is_valid() and photos_form.is_valid():
+            return self.form_valid(form, affiliation_form, photos_form)
+        else:
+            return self.form_invalid(form, affiliation_form, photos_form)
+
     def get(self, request):
         self.object = None
-        self.palliatives_measures = PalliativeMeasure.objects.filter(specific_student__id__isnull=True)
-        self.additional_information = AdditionalInformation.objects.filter(specific_student__id__isnull=True)
-        
+        self.palliatives_measures = PalliativeMeasure.objects.filter(
+            specific_student__id__isnull=True
+        )
+        self.additional_information = AdditionalInformation.objects.filter(
+            specific_student__id__isnull=True
+        )
+
         if self.palliatives_measures.count() == 0:
             messages.error(request, "Nenhuma Medida Paliativa criada!")
             return redirect('student_list')
@@ -78,28 +108,6 @@ class StudentCreate(LoginRequiredMixin, CreateView):
                 additional_information=additional_information
             )
         )
-    
-    def post(self, request):
-        self.object = None
-        self.palliatives_measures = PalliativeMeasure.objects.filter(specific_student__id__isnull=True)
-        self.additional_information = AdditionalInformation.objects.filter(specific_student__id__isnull=True)
-        
-        if self.palliatives_measures.count() == 0:
-            messages.error(request, "Nenhuma Medida Paliativa criada!")
-            return redirect('student_list')
-        if self.additional_information.count() == 0:
-            messages.error(request, "Nenhuma Informação Adicional criada!")
-            return redirect('student_list')
-
-        form = self.get_form(self.get_form_class())
-
-        affiliation_form = AffiliationForm(request.POST)
-        photos_form = PhotosForm(request.POST, request.FILES)
-
-        if form.is_valid() and affiliation_form.is_valid() and photos_form.is_valid():
-            return self.form_valid(form, affiliation_form, photos_form)
-        else:
-            return self.form_invalid(form, affiliation_form, photos_form)
 
     def form_valid(self, form, affiliation_form, photos_form):
         user = self.request.user
@@ -121,7 +129,7 @@ class StudentCreate(LoginRequiredMixin, CreateView):
 
         messages.success(self.request, self.success_message)
         return redirect(self.get_success_url())
-    
+
     def form_invalid(self, form, affiliation_form, photos_form):
         return self.render_to_response(
             self.get_context_data(
@@ -130,7 +138,7 @@ class StudentCreate(LoginRequiredMixin, CreateView):
                 photos_form=photos_form
             )
         )
-    
+
     def get_form_kwargs(self):
         kwargs = super(StudentCreate, self).get_form_kwargs()
         kwargs['request'] = self.request
@@ -145,7 +153,7 @@ class MonitoringView(ListView):
 
     def get_queryset(self):
         return Student.objects.filter(institution=self.request.user.institution)
-    
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['videos'] = [f for f in listdir('static/videos') if isfile(join('static/videos', f))]
@@ -155,7 +163,7 @@ class MonitoringView(ListView):
 class MonitoringIndividual(CanHandleStudent, DetailView):
     model = Student
     template_name = 'base/monitoring_individual.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         trained_model = self.get_trained_model()
@@ -167,10 +175,9 @@ class MonitoringIndividual(CanHandleStudent, DetailView):
         context['me'] = self.request.GET.get('me') == 'true'
 
         return context
-    
+
     def get_trained_model(self):
         trained_model = TrainedModel.objects.filter(active=True).first()
-        print(trained_model)
         if trained_model:
             return trained_model.model
 

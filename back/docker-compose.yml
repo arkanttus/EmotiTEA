@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  db.postgres:
+    image: postgres:12-alpine
+    container_name: db_emotitea
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./project/db.env
+    ports:
+    - 25432:5432

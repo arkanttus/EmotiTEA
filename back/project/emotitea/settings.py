@@ -10,15 +10,13 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
+SECRET_KEY = os.environ.get("SECRET_KEY", "*")
+DEBUG = bool(os.environ.get("DEBUG", "False"))
+
 environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
 
 PRODUCTION = True if env('PRODUCTION') == 'True' else False
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not PRODUCTION
 
 if PRODUCTION:
     ALLOWED_HOSTS = ['']
